@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -29,147 +30,14 @@ public class Figure : MonoBehaviour
     public void generateAvaibleMoves()
     {
         posibleMoves.Clear();
-        switch(name)
+        switch (name)
         {
-            case "Wie¿a" :
-                Debug.Log(positionOnBoard.toSting());
-                Debug.Log("Lista: ");
-                //ruch w prawo do sciany
-                for(int i = positionOnBoard.Litera + 1; i<=7; i++)
-                {
-                    if (GameManager.figuresTable[i, positionOnBoard.Liczba] == null )
-                    {
-                        posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
-                    } else
-                    {
-                        if(GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                        {
-                            posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
-                        }
-                        i = 8;
-                    }
-                }
-                //ruch w lewo do sciany
-                for (int i = positionOnBoard.Litera - 1; i >= 0; i--)
-                {
-                    if ( GameManager.figuresTable[i, positionOnBoard.Liczba] == null)
-                    {
-                        posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
-                    }
-                    else
-                    {
-                        if(GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                        {
-                            posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
-                        }
-                        i = -1;
-                    }
-                }
-                // ruch w gore do krawedzi
-                for (int i = positionOnBoard.Liczba + 1; i <= 7; i++)
-                {
-                    if ( GameManager.figuresTable[positionOnBoard.Litera, i] == null )
-                    {
-                        posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
-                    }
-                    else
-                    {
-                        if ( GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                        {
-                            posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
-                        }
-                        i = 8;
-                    }
-                }
-                // ruch w dol do krawedzi
-                for (int i = positionOnBoard.Liczba - 1; i >= 0; i--)
-                {
-                    if ( GameManager.figuresTable[positionOnBoard.Litera, i] == null)
-                    {
-                        posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
-                    }
-                    else
-                    {
-                        if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                        {
-                            posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
-                        }
-                        i = -1;
-                    }
-                }
+            case "Wie¿a":
+                rookMoves();        
                 break;
 
             case "Goniec":
-
-                // ruch dol-prawo do krawedzi
-                for(int i=positionOnBoard.Litera + 1, j = positionOnBoard.Liczba + 1; i <= 7 && j <= 7; i++, j++)
-                {
-                    if (GameManager.figuresTable[i, j] == null)
-                    {
-                        posibleMoves.Add(new Wspolrzedne(i, j));
-                    }
-                    else
-                    {
-                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
-                        {
-                            posibleMoves.Add(new Wspolrzedne(i, j));
-                        }
-                        i = 8;
-                    }
-                }
-
-                // ruch dol-lewo do krawedzi
-                for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba + 1; i >= 0 && j <= 7; i--, j++)
-                {
-                    if (GameManager.figuresTable[i, j] == null)
-                    {
-                        posibleMoves.Add(new Wspolrzedne(i, j));
-                    }
-                    else
-                    {
-                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
-                        {
-                            posibleMoves.Add(new Wspolrzedne(i, j));
-                        }
-                        i = -1;
-                    }
-                }
-
-                // ruch gora-lewo do krawedzi
-
-
-                for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba -1; i >= 0 && j >=0; i--,j--)
-                {
-                    if ( GameManager.figuresTable[i, j] == null)
-                    {
-                        posibleMoves.Add(new Wspolrzedne(i, j));
-                    }
-                    else
-                    {
-                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
-                        {
-                            posibleMoves.Add(new Wspolrzedne(i, j));
-                        }
-                        i = -1;
-                    }
-                }
-
-                // ruch gora-prawo do krawedzi
-                for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba - 1; i <= 7 && j >=0; i++,j--)
-                {
-                    if ( GameManager.figuresTable[i, j] == null)
-                    {
-                        posibleMoves.Add(new Wspolrzedne(i, j));
-                    }
-                    else
-                    {
-                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
-                        {
-                            posibleMoves.Add(new Wspolrzedne(i, j));
-                        }
-                        i = 8;
-                    }
-                }
+                bishopMoves();
                 break;
 
             case "Koñ":
@@ -276,8 +144,12 @@ public class Figure : MonoBehaviour
                     }
                 }
 
+                break;
 
-
+            case "Hetman":
+                //Ruchy gonca + ruchy wiezy
+                bishopMoves();
+                rookMoves();
                 break;
         }
         
@@ -322,4 +194,146 @@ public class Figure : MonoBehaviour
     {
         return new Vector2((x - 1) * 125, (y - 1) * 125);
     }
+
+    void bishopMoves()
+    {
+        // ruch dol-prawo do krawedzi
+        for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba + 1; i <= 7 && j <= 7; i++, j++)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                }
+                i = 8;
+            }
+        }
+
+        // ruch dol-lewo do krawedzi
+        for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba + 1; i >= 0 && j <= 7; i--, j++)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                }
+                i = -1;
+            }
+        }
+
+        // ruch gora-lewo do krawedzi
+
+
+        for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba - 1; i >= 0 && j >= 0; i--, j--)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                }
+                i = -1;
+            }
+        }
+
+        // ruch gora-prawo do krawedzi
+        for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba - 1; i <= 7 && j >= 0; i++, j--)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                }
+                i = 8;
+            }
+        }
+    }
+
+    void rookMoves()
+    {
+        //ruch w prawo do sciany
+        for (int i = positionOnBoard.Litera + 1; i <= 7; i++)
+        {
+            if (GameManager.figuresTable[i, positionOnBoard.Liczba] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                }
+                i = 8;
+            }
+        }
+        //ruch w lewo do sciany
+        for (int i = positionOnBoard.Litera - 1; i >= 0; i--)
+        {
+            if (GameManager.figuresTable[i, positionOnBoard.Liczba] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                }
+                i = -1;
+            }
+        }
+        // ruch w gore do krawedzi
+        for (int i = positionOnBoard.Liczba + 1; i <= 7; i++)
+        {
+            if (GameManager.figuresTable[positionOnBoard.Litera, i] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+            }
+            else
+            {
+                if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                }
+                i = 8;
+            }
+        }
+        // ruch w dol do krawedzi
+        for (int i = positionOnBoard.Liczba - 1; i >= 0; i--)
+        {
+            if (GameManager.figuresTable[positionOnBoard.Litera, i] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+            }
+            else
+            {
+                if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                }
+                i = -1;
+            }
+        }
+    }
+
 }

@@ -33,6 +33,13 @@ public class GameManager : MonoBehaviour
         Figure temp = Instantiate(avaibleFigures[0], plansza.transform);
         Figure temp1 = Instantiate(avaibleFigures[1], plansza.transform);
         Figure temp2 = Instantiate(avaibleFigures[2], plansza.transform);
+        Figure temp3 = Instantiate(avaibleFigures[3], plansza.transform);
+
+        figuresTable[2, 5] = temp3;
+        temp3.setPostion(2, 5);
+        temp3.transform.localPosition = new Vector2(temp3.positionOnBoard.Litera * 125, temp3.positionOnBoard.Liczba * -125);
+        temp3.setImage();
+
 
         figuresTable[6, 6] = temp2;
         temp2.setPostion(6, 6);
@@ -56,6 +63,7 @@ public class GameManager : MonoBehaviour
         temp1.setImage();
         figuresTable[6, 6].generateAvaibleMoves();
         figuresTable[x1, y1].generateAvaibleMoves();
+        figuresTable[2, 5].generateAvaibleMoves();
 
     }
 
