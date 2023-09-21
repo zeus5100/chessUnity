@@ -227,6 +227,65 @@ public class Figure : MonoBehaviour
                     }
                 }
                 break;
+            case "Pionek":
+                x = positionOnBoard.Litera;
+                y = positionOnBoard.Liczba;
+                if(color)
+                {
+                    //przod o jeden
+                    if (GameManager.figuresTable[x, y + 1] == null)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                    }
+                    //przod lewo
+                    if (GameManager.figuresTable[x - 1, y + 1] != null &&
+                        GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
+                    }
+                    //przod prawo
+                    if (GameManager.figuresTable[x + 1, y + 1] != null &&
+                        GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
+                    }
+                    //przod o dwa
+                    if (y == 1)
+                    {
+                        if (GameManager.figuresTable[x, y + 2] == null)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(x, y + 2));
+                        }
+                    }
+                } else
+                {
+                    //przod o jeden
+                    if (GameManager.figuresTable[x, y - 1] == null)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                    }
+                    //przod lewo
+                    if (GameManager.figuresTable[x - 1, y - 1] != null &&
+                        GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
+                    }
+                    //przod prawo
+                    if (GameManager.figuresTable[x + 1, y - 1] == null &&
+                        GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
+                    }
+                    //przod o dwa
+                    if (y == 6)
+                    {
+                        if (GameManager.figuresTable[x, y - 2] == null)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(x, y - 2));
+                        }
+                    }
+                }
+            break;
         }
         
         for(int i=0; i<posibleMoves.Count; i++)
