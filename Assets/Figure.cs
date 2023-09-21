@@ -86,7 +86,7 @@ public class Figure : MonoBehaviour
             case "Goniec":
 
                 // ruch dol-prawo do krawedzi
-                for(int i=postionOnBoard.Liczba + 1, j = postionOnBoard.Litera + 1; i <= 7 && j <= 7; i++, j++)
+                for(int i=postionOnBoard.Litera + 1, j = postionOnBoard.Liczba + 1; i <= 7 && j <= 7; i++, j++)
                 {
                     if (GameManager.figuresTable[i, j] == null)
                     {
@@ -99,7 +99,7 @@ public class Figure : MonoBehaviour
                 }
 
                 // ruch dol-lewo do krawedzi
-                for (int i = postionOnBoard.Liczba - 1, j = postionOnBoard.Litera + 1; i >= 0 && j <= 7; i--, j++)
+                for (int i = postionOnBoard.Litera - 1, j = postionOnBoard.Liczba + 1; i >= 0 && j <= 7; i--, j++)
                 {
                     if (GameManager.figuresTable[i, j] == null)
                     {
@@ -114,7 +114,7 @@ public class Figure : MonoBehaviour
                 // ruch gora-lewo do krawedzi
 
 
-                for (int i = postionOnBoard.Liczba - 1, j = postionOnBoard.Litera -1; i >= 0 && j >=0; i--,j--)
+                for (int i = postionOnBoard.Litera - 1, j = postionOnBoard.Liczba -1; i >= 0 && j >=0; i--,j--)
                 {
                     if (GameManager.figuresTable[i, j] == null)
                     {
@@ -127,7 +127,7 @@ public class Figure : MonoBehaviour
                 }
 
                 // ruch gora-prawo do krawedzi
-                for (int i = postionOnBoard.Liczba + 1, j = postionOnBoard.Litera - 1; i <= 7 && j >=0; i++,j--)
+                for (int i = postionOnBoard.Litera + 1, j = postionOnBoard.Liczba - 1; i <= 7 && j >=0; i++,j--)
                 {
                     if (GameManager.figuresTable[i, j] == null)
                     {
