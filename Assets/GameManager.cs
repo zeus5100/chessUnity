@@ -39,10 +39,10 @@ public class GameManager : MonoBehaviour
         temp2.transform.localPosition = new Vector2(temp2.positionOnBoard.Litera * 125, temp2.positionOnBoard.Liczba * -125);
         temp2.setImage();
         
-        int x1 = 4;
+        int x1 = 5;
         int y1 = 2;
         temp1.setPostion(x1, y1);
-
+        temp1.setColor(false);
         figuresTable[x1, y1] = temp1;
         int x = 2;
         int y = 2;

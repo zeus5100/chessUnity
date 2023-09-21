@@ -37,63 +37,63 @@ public class Figure : MonoBehaviour
                 //ruch w prawo do sciany
                 for(int i = positionOnBoard.Litera + 1; i<=7; i++)
                 {
-                    if (
-                        GameManager.figuresTable[i, positionOnBoard.Liczba] == null ||
-                        GameManager.figuresTable[i, positionOnBoard.Liczba].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
-                        )
+                    if (GameManager.figuresTable[i, positionOnBoard.Liczba] == null )
                     {
                         posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
                     } else
                     {
+                        if(GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                        }
                         i = 8;
                     }
                 }
                 //ruch w lewo do sciany
                 for (int i = positionOnBoard.Litera - 1; i >= 0; i--)
                 {
-                    if (
-                        GameManager.figuresTable[i, positionOnBoard.Liczba] == null ||
-                        GameManager.figuresTable[i, positionOnBoard.Liczba].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
-                        )
+                    if ( GameManager.figuresTable[i, positionOnBoard.Liczba] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
                     }
                     else
                     {
+                        if(GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                        }
                         i = -1;
                     }
                 }
                 // ruch w gore do krawedzi
                 for (int i = positionOnBoard.Liczba + 1; i <= 7; i++)
                 {
-                    if (
-                        GameManager.figuresTable[positionOnBoard.Litera, i] == null ||
-                        GameManager.figuresTable[positionOnBoard.Litera, i].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
-                        )
+                    if ( GameManager.figuresTable[positionOnBoard.Litera, i] == null )
                     {
                         posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
                     }
                     else
                     {
+                        if ( GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                        }
                         i = 8;
                     }
                 }
                 // ruch w dol do krawedzi
                 for (int i = positionOnBoard.Liczba - 1; i >= 0; i--)
                 {
-                    if (
-                        GameManager.figuresTable[positionOnBoard.Litera, i] == null ||
-                        GameManager.figuresTable[positionOnBoard.Litera, i].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
-                        )
+                    if ( GameManager.figuresTable[positionOnBoard.Litera, i] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
                     }
                     else
                     {
+                        if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                        }
                         i = -1;
                     }
                 }
