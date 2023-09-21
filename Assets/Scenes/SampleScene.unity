@@ -223,6 +223,7 @@ MonoBehaviour:
   avaibleFigures:
   - {fileID: 6246157088953666087, guid: 98c4bc3225a072947b7a662e7a349409, type: 3}
   - {fileID: 6246157088953666087, guid: e4006c8ca0c7d9440af1544942a76fc0, type: 3}
+  - {fileID: 6246157088953666087, guid: 6e95b9b6dde30b445a71b8c1e8784905, type: 3}
   plansza: {fileID: 415368651}
   background: {fileID: 724055487}
   kafelekB: {fileID: 3510619597209733677, guid: 5ad1f86a7ea3b3d40ba76dd3e4891b6e, type: 3}

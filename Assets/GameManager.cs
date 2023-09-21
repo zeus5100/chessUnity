@@ -32,7 +32,13 @@ public class GameManager : MonoBehaviour
         }
         Figure temp = Instantiate(avaibleFigures[0], plansza.transform);
         Figure temp1 = Instantiate(avaibleFigures[1], plansza.transform);
- 
+        Figure temp2 = Instantiate(avaibleFigures[2], plansza.transform);
+
+        figuresTable[6, 6] = temp2;
+        temp2.setPostion(6, 6);
+        temp2.transform.localPosition = new Vector2(temp2.positionOnBoard.Litera * 125, temp2.positionOnBoard.Liczba * -125);
+        temp2.setImage();
+        
         int x1 = 4;
         int y1 = 2;
         temp1.setPostion(x1, y1);
@@ -41,15 +47,14 @@ public class GameManager : MonoBehaviour
         int x = 2;
         int y = 2;
         temp.setPostion(x, y);
-        temp.transform.localPosition = new Vector2(temp.postionOnBoard.Litera * 125, temp.postionOnBoard.Liczba * -125);
+        temp.transform.localPosition = new Vector2(temp.positionOnBoard.Litera * 125, temp.positionOnBoard.Liczba * -125);
         temp.setImage();
         figuresTable[x, y] = temp;
         figuresTable[x, y].generateAvaibleMoves();
-
-        Debug.Log("____________TUTAJ GONIEC____________");
         
-        temp1.transform.localPosition = new Vector2(temp1.postionOnBoard.Litera * 125, temp1.postionOnBoard.Liczba * -125);
+        temp1.transform.localPosition = new Vector2(temp1.positionOnBoard.Litera * 125, temp1.positionOnBoard.Liczba * -125);
         temp1.setImage();
+        figuresTable[6, 6].generateAvaibleMoves();
         figuresTable[x1, y1].generateAvaibleMoves();
 
     }
