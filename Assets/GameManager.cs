@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        Figure temp = Instantiate(avaibleFigures[0], plansza.transform);
+        Figure temp = Instantiate(avaibleFigures[4], plansza.transform);
         Figure temp1 = Instantiate(avaibleFigures[1], plansza.transform);
         Figure temp2 = Instantiate(avaibleFigures[2], plansza.transform);
 
