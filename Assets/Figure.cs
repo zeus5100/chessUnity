@@ -140,10 +140,11 @@ public class Figure : MonoBehaviour
                 }
                 break;
         }
-        //var temp = Instantiate(greenImage, toShowAvaibleMoves.transform);
-        //temp.transform.localPosition = new Vector2(0, 0);
+        
         for(int i=0; i<posibleMoves.Count; i++)
         {
+            var temp = Instantiate(greenImage, toShowAvaibleMoves.transform);
+            temp.transform.localPosition = new Vector2(posibleMoves[i].Litera * 125 - postionOnBoard.Litera * 125, posibleMoves[i].Liczba * -125 + postionOnBoard.Liczba * 125);
             Debug.Log(posibleMoves[i].toSting());
         }
     }
