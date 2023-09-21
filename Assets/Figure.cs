@@ -104,16 +104,16 @@ public class Figure : MonoBehaviour
                 // ruch dol-prawo do krawedzi
                 for(int i=positionOnBoard.Litera + 1, j = positionOnBoard.Liczba + 1; i <= 7 && j <= 7; i++, j++)
                 {
-                    if (
-                        GameManager.figuresTable[i, j] == null ||
-                        GameManager.figuresTable[i, j].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
-                        )
+                    if (GameManager.figuresTable[i, j] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
                     else
                     {
+                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
+                        {
+                            posibleMoves.Add(new Wspolrzedne(i, j));
+                        }
                         i = 8;
                     }
                 }
@@ -121,16 +121,16 @@ public class Figure : MonoBehaviour
                 // ruch dol-lewo do krawedzi
                 for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba + 1; i >= 0 && j <= 7; i--, j++)
                 {
-                    if (
-                        GameManager.figuresTable[i, j] == null ||
-                        GameManager.figuresTable[i, j].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
-                        )
+                    if (GameManager.figuresTable[i, j] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
                     else
                     {
+                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
+                        {
+                            posibleMoves.Add(new Wspolrzedne(i, j));
+                        }
                         i = -1;
                     }
                 }
@@ -140,15 +140,16 @@ public class Figure : MonoBehaviour
 
                 for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba -1; i >= 0 && j >=0; i--,j--)
                 {
-                    if (GameManager.figuresTable[i, j] == null ||
-                        GameManager.figuresTable[i, j].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
-                        )
+                    if ( GameManager.figuresTable[i, j] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
                     else
                     {
+                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
+                        {
+                            posibleMoves.Add(new Wspolrzedne(i, j));
+                        }
                         i = -1;
                     }
                 }
@@ -156,16 +157,16 @@ public class Figure : MonoBehaviour
                 // ruch gora-prawo do krawedzi
                 for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba - 1; i <= 7 && j >=0; i++,j--)
                 {
-                    if (
-                        GameManager.figuresTable[i, j] == null ||
-                        GameManager.figuresTable[i, j].color !=
-                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
-                        )
+                    if ( GameManager.figuresTable[i, j] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
                     else
                     {
+                        if( GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba] )
+                        {
+                            posibleMoves.Add(new Wspolrzedne(i, j));
+                        }
                         i = 8;
                     }
                 }
