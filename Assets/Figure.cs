@@ -151,6 +151,82 @@ public class Figure : MonoBehaviour
                 bishopMoves();
                 rookMoves();
                 break;
+            case "Król":
+                x = positionOnBoard.Litera;
+                y = positionOnBoard.Liczba;
+                //1prawy-górny
+                if (x + 1 <= 7 && y - 1 >= 0)
+                {
+                    if (GameManager.figuresTable[x + 1, y - 1] == null ||
+                        GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color )
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
+                    }
+                }
+                //2prawa-strona
+                if (x + 1 <= 7)
+                {
+                    if (GameManager.figuresTable[x + 1, y] == null ||
+                        GameManager.figuresTable[x + 1, y].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x + 1, y));
+                    }
+                }
+                //3prawy-dolny
+                if (x + 1 <= 7 && y + 1 >= 0)
+                {
+                    if (GameManager.figuresTable[x + 1, y + 1] == null ||
+                        GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x + 1, y + 1)); 
+                    }
+                }
+                //4dolna-strona
+                if (y + 1 <= 7)
+                {
+                    if (GameManager.figuresTable[x, y + 1] == null ||
+                        GameManager.figuresTable[x, y + 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                    }
+                }
+                //5lewy-dolny
+                if (x - 1 >=0 && y + 1 <= 7)
+                {
+                    if (GameManager.figuresTable[x - 1, y + 1] == null ||
+                        GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
+                    }
+                }
+                //6lewa-strona
+                if (x - 1 >= 0)
+                {
+                    if (GameManager.figuresTable[x - 1, y] == null ||
+                        GameManager.figuresTable[x - 1, y].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x - 1, y));
+                    }
+                }
+                //7lewy-gorny
+                if (x - 1 >= 0 && y - 1 >= 0)
+                {
+                    if (GameManager.figuresTable[x - 1, y - 1] == null ||
+                        GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
+                    }
+                }
+                //8gorna-strona
+                if (y - 1 >= 0)
+                {
+                    if (GameManager.figuresTable[x, y - 1] == null ||
+                        GameManager.figuresTable[x, y - 1].color != GameManager.figuresTable[x, y].color)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(x, y - 1));
+                    }
+                }
+                break;
         }
         
         for(int i=0; i<posibleMoves.Count; i++)
