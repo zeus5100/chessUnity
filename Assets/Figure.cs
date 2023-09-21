@@ -37,7 +37,11 @@ public class Figure : MonoBehaviour
                 //ruch w prawo do sciany
                 for(int i = positionOnBoard.Litera + 1; i<=7; i++)
                 {
-                    if (GameManager.figuresTable[i, positionOnBoard.Liczba] == null)
+                    if (
+                        GameManager.figuresTable[i, positionOnBoard.Liczba] == null ||
+                        GameManager.figuresTable[i, positionOnBoard.Liczba].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
                     } else
@@ -48,7 +52,11 @@ public class Figure : MonoBehaviour
                 //ruch w lewo do sciany
                 for (int i = positionOnBoard.Litera - 1; i >= 0; i--)
                 {
-                    if (GameManager.figuresTable[i, positionOnBoard.Liczba] == null)
+                    if (
+                        GameManager.figuresTable[i, positionOnBoard.Liczba] == null ||
+                        GameManager.figuresTable[i, positionOnBoard.Liczba].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
                     }
@@ -60,7 +68,11 @@ public class Figure : MonoBehaviour
                 // ruch w gore do krawedzi
                 for (int i = positionOnBoard.Liczba + 1; i <= 7; i++)
                 {
-                    if (GameManager.figuresTable[positionOnBoard.Litera, i] == null)
+                    if (
+                        GameManager.figuresTable[positionOnBoard.Litera, i] == null ||
+                        GameManager.figuresTable[positionOnBoard.Litera, i].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
                     }
@@ -72,7 +84,11 @@ public class Figure : MonoBehaviour
                 // ruch w dol do krawedzi
                 for (int i = positionOnBoard.Liczba - 1; i >= 0; i--)
                 {
-                    if (GameManager.figuresTable[positionOnBoard.Litera, i] == null)
+                    if (
+                        GameManager.figuresTable[positionOnBoard.Litera, i] == null ||
+                        GameManager.figuresTable[positionOnBoard.Litera, i].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
                     }
@@ -88,7 +104,11 @@ public class Figure : MonoBehaviour
                 // ruch dol-prawo do krawedzi
                 for(int i=positionOnBoard.Litera + 1, j = positionOnBoard.Liczba + 1; i <= 7 && j <= 7; i++, j++)
                 {
-                    if (GameManager.figuresTable[i, j] == null)
+                    if (
+                        GameManager.figuresTable[i, j] == null ||
+                        GameManager.figuresTable[i, j].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
@@ -101,7 +121,11 @@ public class Figure : MonoBehaviour
                 // ruch dol-lewo do krawedzi
                 for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba + 1; i >= 0 && j <= 7; i--, j++)
                 {
-                    if (GameManager.figuresTable[i, j] == null)
+                    if (
+                        GameManager.figuresTable[i, j] == null ||
+                        GameManager.figuresTable[i, j].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
@@ -116,7 +140,10 @@ public class Figure : MonoBehaviour
 
                 for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba -1; i >= 0 && j >=0; i--,j--)
                 {
-                    if (GameManager.figuresTable[i, j] == null)
+                    if (GameManager.figuresTable[i, j] == null ||
+                        GameManager.figuresTable[i, j].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
@@ -129,7 +156,11 @@ public class Figure : MonoBehaviour
                 // ruch gora-prawo do krawedzi
                 for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba - 1; i <= 7 && j >=0; i++,j--)
                 {
-                    if (GameManager.figuresTable[i, j] == null)
+                    if (
+                        GameManager.figuresTable[i, j] == null ||
+                        GameManager.figuresTable[i, j].color !=
+                        GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(i, j));
                     }
@@ -149,7 +180,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x + 1, y - 2] == null ||
                         GameManager.figuresTable[x + 1, y - 2].color !=
-                        GameManager.figuresTable[x + 1, y - 2].color
+                        GameManager.figuresTable[x, y].color
                         
                         )
                     {
@@ -162,7 +193,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x + 1, y + 2] == null ||
                         GameManager.figuresTable[x + 1, y + 2].color !=
-                        GameManager.figuresTable[x + 1, y + 2].color
+                        GameManager.figuresTable[x, y].color
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y + 2));
@@ -174,7 +205,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x + 2, y - 1] == null ||
                         GameManager.figuresTable[x + 2, y - 1].color !=
-                        GameManager.figuresTable[x + 2, y - 1].color
+                        GameManager.figuresTable[x, y].color
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 2, y - 1));
@@ -186,7 +217,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x + 2, y + 1] == null ||
                         GameManager.figuresTable[x + 2, y + 1].color !=
-                        GameManager.figuresTable[x + 2, y + 1].color
+                        GameManager.figuresTable[x, y].color
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 2, y + 1));
@@ -201,7 +232,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x - 1, y - 2] == null ||
                         GameManager.figuresTable[x - 1, y - 2].color !=
-                        GameManager.figuresTable[x - 1, y - 2].color
+                        GameManager.figuresTable[x, y].color
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y - 2));
@@ -213,7 +244,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x - 1, y + 2] == null ||
                         GameManager.figuresTable[x - 1, y + 2].color !=
-                        GameManager.figuresTable[x - 1, y + 2].color
+                        GameManager.figuresTable[x, y].color
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y + 2));
@@ -225,7 +256,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x - 2, y - 1] == null ||
                         GameManager.figuresTable[x - 2, y - 1].color !=
-                        GameManager.figuresTable[x - 2, y - 1].color
+                        GameManager.figuresTable[x, y].color
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 2, y - 1));
@@ -237,7 +268,7 @@ public class Figure : MonoBehaviour
                     if (
                         GameManager.figuresTable[x - 2, y + 1] == null ||
                     GameManager.figuresTable[x - 2, y + 1].color !=
-                    GameManager.figuresTable[x - 2, y + 1].color
+                    GameManager.figuresTable[x, y].color
                     )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 2, y + 1));
