@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 public class Figure : MonoBehaviour
@@ -78,6 +79,63 @@ public class Figure : MonoBehaviour
                     else
                     {
                         i = -1;
+                    }
+                }
+                break;
+
+            case "Goniec":
+
+                // ruch dol-prawo do krawedzi
+                for(int i=postionOnBoard.Liczba + 1, j = postionOnBoard.Litera + 1; i <= 7 && j <= 7; i++, j++)
+                {
+                    if (GameManager.figuresTable[i, j] == null)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(i, j));
+                    }
+                    else
+                    {
+                        i = 8;
+                    }
+                }
+
+                // ruch dol-lewo do krawedzi
+                for (int i = postionOnBoard.Liczba - 1, j = postionOnBoard.Litera + 1; i >= 0 && j <= 7; i--, j++)
+                {
+                    if (GameManager.figuresTable[i, j] == null)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(i, j));
+                    }
+                    else
+                    {
+                        i = -1;
+                    }
+                }
+
+                // ruch gora-lewo do krawedzi
+
+
+                for (int i = postionOnBoard.Liczba - 1, j = postionOnBoard.Litera -1; i >= 0 && j >=0; i--,j--)
+                {
+                    if (GameManager.figuresTable[i, j] == null)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(i, j));
+                    }
+                    else
+                    {
+                        i = -1;
+                    }
+                }
+
+                // ruch gora-prawo do krawedzi
+                for (int i = postionOnBoard.Liczba + 1, j = postionOnBoard.Litera - 1; i <= 7 && j >=0; i++,j--)
+                {
+                    if (GameManager.figuresTable[i, j] == null)
+                    {
+                        posibleMoves.Add(new Wspolrzedne(i, j));
+                    }
+                    else
+                    {
+                        i = 8;
                     }
                 }
                 break;

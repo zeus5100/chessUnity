@@ -31,6 +31,13 @@ public class GameManager : MonoBehaviour
             }
         }
         Figure temp = Instantiate(avaibleFigures[0], plansza.transform);
+        Figure temp1 = Instantiate(avaibleFigures[1], plansza.transform);
+ 
+        int x1 = 4;
+        int y1 = 2;
+        temp1.setPostion(x1, y1);
+
+        figuresTable[x1, y1] = temp1;
         int x = 2;
         int y = 2;
         temp.setPostion(x, y);
@@ -38,6 +45,13 @@ public class GameManager : MonoBehaviour
         temp.setImage();
         figuresTable[x, y] = temp;
         figuresTable[x, y].generateAvaibleMoves();
+
+        Debug.Log("____________TUTAJ GONIEC____________");
+        
+        temp1.transform.localPosition = new Vector2(temp1.postionOnBoard.Litera * 125, temp1.postionOnBoard.Liczba * -125);
+        temp1.setImage();
+        figuresTable[x1, y1].generateAvaibleMoves();
+
     }
 
     // Update is called once per frame
