@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Wspolrzedne
 {
-    public char Litera { get; set; }
-    public char Type { get; set; }
+    public int Litera { get; set; }
     public int Liczba { get; set; }
 
-    public Wspolrzedne(char litera, int liczba, char type)
+    public Wspolrzedne(int litera, int liczba)
     {
         Litera = litera;
         Liczba = liczba;
-        Type = type;
+    }
+    public string toSting()
+    {
+        return "" + Litera + " " + Liczba;
     }
 }
