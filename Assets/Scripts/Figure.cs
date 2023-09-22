@@ -42,7 +42,7 @@ public class Figure : MonoBehaviour
         }
         switch (name)
         {
-            case "Wie¿a":
+            case "Wieï¿½a":
                 rookMoves();
                 break;
 
@@ -50,7 +50,7 @@ public class Figure : MonoBehaviour
                 bishopMoves();
                 break;
 
-            case "Koñ":
+            case "Koï¿½":
                 // Gora-Prawo
                 int x = positionOnBoard.Litera;
                 int y = positionOnBoard.Liczba;
@@ -161,10 +161,10 @@ public class Figure : MonoBehaviour
                 bishopMoves();
                 rookMoves();
                 break;
-            case "Król":
+            case "Krï¿½l":
                 x = positionOnBoard.Litera;
                 y = positionOnBoard.Liczba;
-                //1prawy-górny
+                //1prawy-gï¿½rny
                 if (x + 1 <= 7 && y - 1 >= 0)
                 {
                     if (GameManager.figuresTable[x + 1, y - 1] == null ||
@@ -246,7 +246,6 @@ public class Figure : MonoBehaviour
                     if (GameManager.figuresTable[x, y + 1] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y + 1));
-
                         //przod o dwa
                         if (y == 1)
                         {
@@ -268,14 +267,15 @@ public class Figure : MonoBehaviour
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
                     }
-                    
+
                 }
                 else
                 {
                     //przod o jeden
                     if (GameManager.figuresTable[x, y - 1] == null)
                     {
-                        posibleMoves.Add(new Wspolrzedne(x, y - 1));
+                        posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                        //przod o dwa
                         if (y == 6)
                         {
                             if (GameManager.figuresTable[x, y - 2] == null)
@@ -291,13 +291,11 @@ public class Figure : MonoBehaviour
                         posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
                     }
                     //przod prawo
-                    if (GameManager.figuresTable[x + 1, y - 1] != null &&
+                    if (GameManager.figuresTable[x + 1, y - 1] == null &&
                         GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
                     }
-                    //przod o dwa
-                    
                 }
                 break;
         }
