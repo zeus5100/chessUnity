@@ -246,6 +246,14 @@ public class Figure : MonoBehaviour
                     if (GameManager.figuresTable[x, y + 1] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                        //przod o dwa
+                        if (y == 1)
+                        {
+                            if (GameManager.figuresTable[x, y + 2] == null)
+                            {
+                                posibleMoves.Add(new Wspolrzedne(x, y + 2));
+                            }
+                        }
                     }
                     //przod lewo
                     if (GameManager.figuresTable[x - 1, y + 1] != null &&
@@ -259,14 +267,7 @@ public class Figure : MonoBehaviour
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
                     }
-                    //przod o dwa
-                    if (y == 1)
-                    {
-                        if (GameManager.figuresTable[x, y + 2] == null)
-                        {
-                            posibleMoves.Add(new Wspolrzedne(x, y + 2));
-                        }
-                    }
+
                 }
                 else
                 {
@@ -274,6 +275,14 @@ public class Figure : MonoBehaviour
                     if (GameManager.figuresTable[x, y - 1] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                        //przod o dwa
+                        if (y == 6)
+                        {
+                            if (GameManager.figuresTable[x, y - 2] == null)
+                            {
+                                posibleMoves.Add(new Wspolrzedne(x, y - 2));
+                            }
+                        }
                     }
                     //przod lewo
                     if (GameManager.figuresTable[x - 1, y - 1] != null &&
@@ -286,14 +295,6 @@ public class Figure : MonoBehaviour
                         GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
-                    }
-                    //przod o dwa
-                    if (y == 6)
-                    {
-                        if (GameManager.figuresTable[x, y - 2] == null)
-                        {
-                            posibleMoves.Add(new Wspolrzedne(x, y - 2));
-                        }
                     }
                 }
                 break;
