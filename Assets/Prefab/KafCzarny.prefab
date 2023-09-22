@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3292777020955673492}
   - component: {fileID: 889211903107138240}
   m_Layer: 5
-  m_Name: KafCzarny 1
+  m_Name: KafCzarny
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -16,7 +16,6 @@ public class Figure : MonoBehaviour
     public Image myImage;
     public Image greenImage;
     public bool visibleMoves;
-    public GameObject toShowAvaibleMoves;
     public Wspolrzedne positionOnBoard;
     List<Wspolrzedne> posibleMoves = new List<Wspolrzedne>();
     private void Start()
@@ -33,10 +32,6 @@ public class Figure : MonoBehaviour
     public void generateAvaibleMoves()
     {
         posibleMoves.Clear();
-        foreach (Transform child in toShowAvaibleMoves.transform)
-        {
-            Destroy(child.gameObject);
-        }
         switch (name)
         {
             case "Wie�a":
@@ -253,14 +248,14 @@ public class Figure : MonoBehaviour
                         }
                     }
                     //przod lewo
-                    if ( x - 1 >= 0 && y + 1 <= 7 && 
+                    if (x - 1 >= 0 && y + 1 <= 7 &&
                         GameManager.figuresTable[x - 1, y + 1] != null &&
                         GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
                     }
                     //przod prawo
-                    if ( x + 1 <= 7 && y + 1 <= 7 &&
+                    if (x + 1 <= 7 && y + 1 <= 7 &&
                         GameManager.figuresTable[x + 1, y + 1] != null &&
                         GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
                     {
@@ -284,7 +279,7 @@ public class Figure : MonoBehaviour
                         }
                     }
                     //przod lewo
-                    if ( x - 1 >= 0 && y - 1 >= 0 &&
+                    if (x - 1 >= 0 && y - 1 >= 0 &&
                         GameManager.figuresTable[x - 1, y - 1] != null &&
                         GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
@@ -301,37 +296,52 @@ public class Figure : MonoBehaviour
                 break;
         }
 
-        for (int i = 0; i < posibleMoves.Count; i++)
+        /*for (int i = 0; i < posibleMoves.Count; i++)
         {
             var temp = Instantiate(greenImage, toShowAvaibleMoves.transform);
             temp.transform.localPosition = new Vector2(posibleMoves[i].Litera * 125 - positionOnBoard.Litera * 125, posibleMoves[i].Liczba * -125 + positionOnBoard.Liczba * 125);
             // Debug.Log(posibleMoves[i].toSting());
-        }
+        }*/
     }
     public void showAvaibleMoves()
     {
-        Debug.Log(GameManager.whichMove);
         if (visibleMoves)
         {
-            toShowAvaibleMoves.SetActive(false);
             visibleMoves = false;
         }
         else
         {
             if (GameManager.whichMove == color)
             {
-                GameManager.hideAvaibleMoves();
+                togetherGenerate();
+                GameManager.currentX = positionOnBoard.Litera;
+                GameManager.currentY = positionOnBoard.Liczba;
                 GameManager.posibleFigureCreate = false;
-                toShowAvaibleMoves.SetActive(true);
                 visibleMoves = true;
                 Debug.Log("K00tas");
             }
         }
     }
+    public void togetherGenerate()
+    {
+        foreach (Transform child in PosibleMoves.place.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        for (int i = 0; i < posibleMoves.Count; i++)
+        {
+            var temp = Instantiate(greenImage, PosibleMoves.place.transform);
+            temp.transform.localPosition = new Vector2(posibleMoves[i].Litera * 125, posibleMoves[i].Liczba * -125);
+            // Debug.Log(posibleMoves[i].toSting());
+        }
+    }
 
     public void hideAvaibleMoves()
     {
-        toShowAvaibleMoves.SetActive(false);
+        foreach (Transform child in PosibleMoves.place.transform)
+        {
+            Destroy(child.gameObject);
+        }
         visibleMoves = false;
     }
     public void setPostion(int a, int b)

@@ -11,14 +11,18 @@ public class GameManager : MonoBehaviour
     public GameObject plansza;
     public static GameObject staticPlansza;
     public GameObject background;
+    public GameObject avaibleMoves;
     public static int numberFigureToCreate;
     public static bool colorFigureToCreate;
     public static bool posibleFigureCreate;
     public static bool whichMove;
 
+    public static int currentX;
+    public static int currentY;
+
     public Image kafelekB;
     public Image kafelekC;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,7 +70,7 @@ public class GameManager : MonoBehaviour
         posibleFigureCreate = true;
     }
 
-    public static void moveFigure(int currentX, int currentY, int targetX, int targetY)
+    public static void moveFigure(int targetX, int targetY)
     {
         if (figuresTable[currentX, currentY] != null)
         {
@@ -78,8 +82,7 @@ public class GameManager : MonoBehaviour
             figuresTable[currentX, currentY] = null;
             figuresTable[targetX, targetY].setPostion(targetX, targetY);
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
-            
-            figuresTable[targetX, targetY].showAvaibleMoves();
+            figuresTable[targetX, targetY].hideAvaibleMoves();
             generateAvaibleMoves();
 
             if (whichMove)
@@ -120,6 +123,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        
+
     }
 }

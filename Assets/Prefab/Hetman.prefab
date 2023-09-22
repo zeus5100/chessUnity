@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 438969670942346252}
   - component: {fileID: 6246157088953666087}
   - component: {fileID: 4108586768284782013}
-  m_Layer: 5
+  - component: {fileID: 1166806128167342980}
+  m_Layer: 0
   m_Name: Hetman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +98,7 @@ MonoBehaviour:
   color: 1
   button: {fileID: 4108586768284782013}
   myImage: {fileID: 438969670942346252}
-  greenImage: {fileID: 1838142571956729574, guid: ab65bfdf52ede044181f217a0ee365ac, type: 3}
+  greenImage: {fileID: 1838142571956729574, guid: de259a00118c4264cb0c96d874e4f6a4, type: 3}
   visibleMoves: 0
   toShowAvaibleMoves: {fileID: 860601832167442284}
 --- !u!114 &4108586768284782013
@@ -144,6 +145,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!210 &1166806128167342980
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438969670942346254}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &860601832167442284
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1129729596297793992}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
