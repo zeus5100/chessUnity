@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Figure : MonoBehaviour
 {
-    public string name;
+    [SerializeField] string nameFigure;
     public Sprite imageB;
     public Sprite imageC;
     public int value;
@@ -32,9 +32,9 @@ public class Figure : MonoBehaviour
     public void generateAvaibleMoves()
     {
         posibleMoves.Clear();
-        switch (name)
+        switch (nameFigure)
         {
-            case "Wie�a":
+            case "Wieza":
                 rookMoves();
                 break;
 
@@ -42,7 +42,7 @@ public class Figure : MonoBehaviour
                 bishopMoves();
                 break;
 
-            case "Ko�":
+            case "Kon":
                 // Gora-Prawo
                 int x = positionOnBoard.Litera;
                 int y = positionOnBoard.Liczba;
@@ -153,7 +153,7 @@ public class Figure : MonoBehaviour
                 bishopMoves();
                 rookMoves();
                 break;
-            case "Kr�l":
+            case "Krol":
                 x = positionOnBoard.Litera;
                 y = positionOnBoard.Liczba;
                 //1prawy-g�rny
@@ -175,7 +175,7 @@ public class Figure : MonoBehaviour
                     }
                 }
                 //3prawy-dolny
-                if (x + 1 <= 7 && y + 1 >= 0)
+                if (x + 1 <= 7 && y + 1 <= 7)
                 {
                     if (GameManager.figuresTable[x + 1, y + 1] == null ||
                         GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
@@ -305,6 +305,7 @@ public class Figure : MonoBehaviour
     }
     public void showAvaibleMoves()
     {
+
         if (visibleMoves)
         {
             visibleMoves = false;
