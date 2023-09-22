@@ -25,15 +25,25 @@ public class Figure : MonoBehaviour
         visibleMoves = true;
         showAvaibleMoves();
     }
-    
 
+    private void Update()
+    {
+        if (Input.GetMouseButton(0) && visibleMoves)
+        {
+            showAvaibleMoves();
+        }
+    }
     public void generateAvaibleMoves()
     {
         posibleMoves.Clear();
+        foreach (Transform child in toShowAvaibleMoves.transform)
+        {
+            Destroy(child.gameObject);
+        }
         switch (name)
         {
             case "Wie¿a":
-                rookMoves();        
+                rookMoves();
                 break;
 
             case "Goniec":
@@ -50,7 +60,7 @@ public class Figure : MonoBehaviour
                         GameManager.figuresTable[x + 1, y - 2] == null ||
                         GameManager.figuresTable[x + 1, y - 2].color !=
                         GameManager.figuresTable[x, y].color
-                        
+
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 2));
@@ -158,7 +168,7 @@ public class Figure : MonoBehaviour
                 if (x + 1 <= 7 && y - 1 >= 0)
                 {
                     if (GameManager.figuresTable[x + 1, y - 1] == null ||
-                        GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color )
+                        GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
                     }
@@ -178,7 +188,7 @@ public class Figure : MonoBehaviour
                     if (GameManager.figuresTable[x + 1, y + 1] == null ||
                         GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
                     {
-                        posibleMoves.Add(new Wspolrzedne(x + 1, y + 1)); 
+                        posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
                     }
                 }
                 //4dolna-strona
@@ -191,7 +201,7 @@ public class Figure : MonoBehaviour
                     }
                 }
                 //5lewy-dolny
-                if (x - 1 >=0 && y + 1 <= 7)
+                if (x - 1 >= 0 && y + 1 <= 7)
                 {
                     if (GameManager.figuresTable[x - 1, y + 1] == null ||
                         GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
@@ -230,7 +240,7 @@ public class Figure : MonoBehaviour
             case "Pionek":
                 x = positionOnBoard.Litera;
                 y = positionOnBoard.Liczba;
-                if(color)
+                if (color)
                 {
                     //przod o jeden
                     if (GameManager.figuresTable[x, y + 1] == null)
@@ -257,7 +267,8 @@ public class Figure : MonoBehaviour
                             posibleMoves.Add(new Wspolrzedne(x, y + 2));
                         }
                     }
-                } else
+                }
+                else
                 {
                     //przod o jeden
                     if (GameManager.figuresTable[x, y - 1] == null)
@@ -285,24 +296,26 @@ public class Figure : MonoBehaviour
                         }
                     }
                 }
-            break;
+                break;
         }
-        
-        for(int i=0; i<posibleMoves.Count; i++)
+
+        for (int i = 0; i < posibleMoves.Count; i++)
         {
             var temp = Instantiate(greenImage, toShowAvaibleMoves.transform);
             temp.transform.localPosition = new Vector2(posibleMoves[i].Litera * 125 - positionOnBoard.Litera * 125, posibleMoves[i].Liczba * -125 + positionOnBoard.Liczba * 125);
-            Debug.Log(posibleMoves[i].toSting());
+            // Debug.Log(posibleMoves[i].toSting());
         }
     }
     public void showAvaibleMoves()
     {
-        if(visibleMoves)
+        if (visibleMoves)
         {
             toShowAvaibleMoves.SetActive(false);
             visibleMoves = false;
-        } else
+        }
+        else
         {
+            GameManager.posibleFigureCreate = false;
             toShowAvaibleMoves.SetActive(true);
             visibleMoves = true;
         }
@@ -317,10 +330,11 @@ public class Figure : MonoBehaviour
     }
     public void setImage()
     {
-        if(color)
+        if (color)
         {
             myImage.sprite = imageB;
-        } else
+        }
+        else
         {
             myImage.sprite = imageC;
         }

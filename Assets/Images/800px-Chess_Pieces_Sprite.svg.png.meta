@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -111,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -123,6 +129,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -391,21 +398,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      800px-Chess_Pieces_Sprite.svg_11: 1732755450
-      800px-Chess_Pieces_Sprite.svg_3: 495199662
-      800px-Chess_Pieces_Sprite.svg_4: -704762022
+      800px-Chess_Pieces_Sprite.svg_0: 121869386
       800px-Chess_Pieces_Sprite.svg_1: -1416898263
       800px-Chess_Pieces_Sprite.svg_10: -156772261
-      800px-Chess_Pieces_Sprite.svg_6: -335499584
+      800px-Chess_Pieces_Sprite.svg_11: 1732755450
       800px-Chess_Pieces_Sprite.svg_2: 379815852
-      800px-Chess_Pieces_Sprite.svg_9: -403837199
-      800px-Chess_Pieces_Sprite.svg_0: 121869386
+      800px-Chess_Pieces_Sprite.svg_3: 495199662
+      800px-Chess_Pieces_Sprite.svg_4: -704762022
       800px-Chess_Pieces_Sprite.svg_5: -15608997
-      800px-Chess_Pieces_Sprite.svg_8: -1107765171
+      800px-Chess_Pieces_Sprite.svg_6: -335499584
       800px-Chess_Pieces_Sprite.svg_7: -302978403
-  spritePackingTag: 
+      800px-Chess_Pieces_Sprite.svg_8: -1107765171
+      800px-Chess_Pieces_Sprite.svg_9: -403837199
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
