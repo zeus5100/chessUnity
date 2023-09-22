@@ -28,10 +28,7 @@ public class Figure : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) && visibleMoves)
-        {
-            showAvaibleMoves();
-        }
+
     }
     public void generateAvaibleMoves()
     {
@@ -256,13 +253,15 @@ public class Figure : MonoBehaviour
                         }
                     }
                     //przod lewo
-                    if (GameManager.figuresTable[x - 1, y + 1] != null &&
+                    if ( x - 1 >= 0 && y + 1 <= 7 && 
+                        GameManager.figuresTable[x - 1, y + 1] != null &&
                         GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
                     }
                     //przod prawo
-                    if (GameManager.figuresTable[x + 1, y + 1] != null &&
+                    if ( x + 1 <= 7 && y + 1 <= 7 &&
+                        GameManager.figuresTable[x + 1, y + 1] != null &&
                         GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
@@ -274,7 +273,7 @@ public class Figure : MonoBehaviour
                     //przod o jeden
                     if (GameManager.figuresTable[x, y - 1] == null)
                     {
-                        posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                        posibleMoves.Add(new Wspolrzedne(x, y - 1));
                         //przod o dwa
                         if (y == 6)
                         {
@@ -285,13 +284,15 @@ public class Figure : MonoBehaviour
                         }
                     }
                     //przod lewo
-                    if (GameManager.figuresTable[x - 1, y - 1] != null &&
+                    if ( x - 1 >= 0 && y - 1 >= 0 &&
+                        GameManager.figuresTable[x - 1, y - 1] != null &&
                         GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
                     }
                     //przod prawo
-                    if (GameManager.figuresTable[x + 1, y - 1] == null &&
+                    if (x + 1 <= 7 && y - 1 >= 0 &&
+                        GameManager.figuresTable[x + 1, y - 1] != null &&
                         GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
@@ -309,6 +310,7 @@ public class Figure : MonoBehaviour
     }
     public void showAvaibleMoves()
     {
+        Debug.Log(GameManager.whichMove);
         if (visibleMoves)
         {
             toShowAvaibleMoves.SetActive(false);
@@ -316,10 +318,21 @@ public class Figure : MonoBehaviour
         }
         else
         {
-            GameManager.posibleFigureCreate = false;
-            toShowAvaibleMoves.SetActive(true);
-            visibleMoves = true;
+            if (GameManager.whichMove == color)
+            {
+                GameManager.hideAvaibleMoves();
+                GameManager.posibleFigureCreate = false;
+                toShowAvaibleMoves.SetActive(true);
+                visibleMoves = true;
+                Debug.Log("K00tas");
+            }
         }
+    }
+
+    public void hideAvaibleMoves()
+    {
+        toShowAvaibleMoves.SetActive(false);
+        visibleMoves = false;
     }
     public void setPostion(int a, int b)
     {

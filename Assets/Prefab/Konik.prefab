@@ -100,7 +100,6 @@ MonoBehaviour:
   greenImage: {fileID: 1838142571956729574, guid: ab65bfdf52ede044181f217a0ee365ac, type: 3}
   visibleMoves: 0
   toShowAvaibleMoves: {fileID: 6828153166703773585}
-  gameManager: {fileID: 0}
 --- !u!114 &5169323808451479951
 MonoBehaviour:
   m_ObjectHideFlags: 0

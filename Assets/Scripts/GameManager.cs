@@ -14,11 +14,15 @@ public class GameManager : MonoBehaviour
     public static int numberFigureToCreate;
     public static bool colorFigureToCreate;
     public static bool posibleFigureCreate;
+    public static bool whichMove;
+
     public Image kafelekB;
     public Image kafelekC;
+    
     // Start is called before the first frame update
     void Start()
     {
+        whichMove = true;
         for (int i = 1; i <= 8; i++)
         {
             for (int j = 1; j <= 4; j++)
@@ -53,6 +57,45 @@ public class GameManager : MonoBehaviour
         temp.setImage();
         figuresTable[x, y] = temp;
         posibleFigureCreate = false;
+        generateAvaibleMoves();
+    }
+    public static void choiceFigureToCreate(int x, bool color)
+    {
+        numberFigureToCreate = x;
+        colorFigureToCreate = color;
+        posibleFigureCreate = true;
+    }
+
+    public static void moveFigure(int currentX, int currentY, int targetX, int targetY)
+    {
+        if (figuresTable[currentX, currentY] != null)
+        {
+            if (figuresTable[targetX, targetY] != null)
+            {
+                Destroy(figuresTable[targetX, targetY].gameObject);
+            }
+            figuresTable[targetX, targetY] = figuresTable[currentX, currentY];
+            figuresTable[currentX, currentY] = null;
+            figuresTable[targetX, targetY].setPostion(targetX, targetY);
+            figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
+            
+            figuresTable[targetX, targetY].showAvaibleMoves();
+            generateAvaibleMoves();
+
+            if (whichMove)
+            {
+                whichMove = false;
+            }
+            else
+            {
+                whichMove = true;
+            }
+        }
+    }
+    // Update is called once per frame
+
+    static void generateAvaibleMoves()
+    {
         for (int i = 0; i <= 7; i++)
         {
             for (int j = 0; j <= 7; j++)
@@ -64,15 +107,19 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public static void choiceFigureToCreate(int x, bool color)
+
+    public static void hideAvaibleMoves()
     {
-        numberFigureToCreate = x;
-        colorFigureToCreate = color;
-        posibleFigureCreate = true;
+        foreach (Figure f in figuresTable)
+        {
+            if (f != null)
+            {
+                f.hideAvaibleMoves();
+            }
+        }
     }
-    // Update is called once per frame
     private void Update()
     {
-
+        
     }
 }
