@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +17,11 @@ public class GameManager : MonoBehaviour
     public static bool colorFigureToCreate;
     public static bool posibleFigureCreate;
     public static bool whichMove;
-    
+
     //Szachowanie krola
     public static bool isChecked;
     public static List<Figure> figuresChecking = new List<Figure>();
-    public static List<Wspolrzedne> attackingFields = new List<Wspolrzedne> ();
+    public static List<Wspolrzedne> attackingFields = new List<Wspolrzedne>();
     public static int whichMethod;
 
     public static int currentX;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         whichMove = true;
+        whichMethod = 99;
         for (int i = 1; i <= 8; i++)
         {
             for (int j = 1; j <= 4; j++)
@@ -95,8 +97,8 @@ public class GameManager : MonoBehaviour
             figuresTable[targetX, targetY].setPostion(targetX, targetY);
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
+            attackingFields.Clear();
             generateAvaibleMoves();
-            Debug.Log(isChecked);
 
             if (whichMove)
             {
@@ -107,21 +109,69 @@ public class GameManager : MonoBehaviour
                 whichMove = true;
             }
 
-            if(isChecked)
+            if (isChecked)
             {
-                if(figuresChecking.Count < 2)
+                if (figuresChecking.Count < 2)
                 {
-                    //Sprawdzanie czy da sie zaslonic i ruchy krolem
-                    switch (figuresChecking[0].nameFigure)
+                    List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
+                    figuresChecking[0].figuresMoves(whichMethod);
+                    foreach (Figure f in figuresTable)
                     {
-                        case "Goniec":
-                            figuresChecking[0].bishopMoves(whichMethod);
-                            break;
+                        tempAvaibleMoves.Clear();
+                        if (f != null && f.color == whichMove)
+                        {
+                            foreach (Wspolrzedne wDefence in f.posibleMoves)
+                            {
+                                foreach (Wspolrzedne wAttack in attackingFields)
+                                {
+                                    if ((wDefence.Litera == wAttack.Litera && wDefence.Liczba == wAttack.Liczba))
+                                    {
+                                        tempAvaibleMoves.Add(wAttack);
+                                    }
+                                    if (wDefence.Liczba == figuresChecking[0].positionOnBoard.Liczba && wDefence.Litera == figuresChecking[0].positionOnBoard.Litera)
+                                    {
+                                        tempAvaibleMoves.Add(figuresChecking[0].positionOnBoard);
+                                    }
+                                }
+                            }
+                            f.posibleMoves.Clear();
+                            f.posibleMoves.AddRange(tempAvaibleMoves);
+                        }
                     }
-                    foreach(Wspolrzedne w in attackingFields)
+                    int indexX = attackingFields[attackingFields.Count - 1].Litera;
+                    int indexY = attackingFields[attackingFields.Count - 1].Liczba;
+                    figuresTable[indexX, indexY].generateAvaibleMoves();
+                    List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
+                    foreach (Figure f in figuresTable)
                     {
-                        Debug.Log(w.toSting());
+                        if (f != null && f.color != whichMove)
+                        {
+                            foreach (Wspolrzedne wAttack in f.posibleMoves)
+                            {
+                                for (int i = 0; i < tempKingMoves.Count; i++)
+                                {
+                                    if ((wAttack.Litera == tempKingMoves[i].Litera && wAttack.Liczba == tempKingMoves[i].Liczba))
+                                    {
+                                        figuresTable[indexX, indexY].posibleMoves.Remove(tempKingMoves[i]);
+                                    }
+                                }
+                                /*foreach (Wspolrzedne wAttack in attackingFields)
+                                {
+                                    if ((wDefence.Litera == wAttack.Litera && wDefence.Liczba == wAttack.Liczba))
+                                    {
+                                        tempAvaibleMoves.Add(wAttack);
+                                    }
+                                    if (wDefence.Liczba == figuresChecking[0].positionOnBoard.Liczba && wDefence.Litera == figuresChecking[0].positionOnBoard.Litera)
+                                    {
+                                        tempAvaibleMoves.Add(figuresChecking[0].positionOnBoard);
+                                    }
+                                }*/
+                            }/*
+                            f.posibleMoves.Clear();
+                            f.posibleMoves.AddRange(tempAvaibleMoves);*/
+                        }
                     }
+
                 }
                 else
                 {
@@ -130,7 +180,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-   
+
     static void generateAvaibleMoves()
     {
         isChecked = false;

@@ -15,9 +15,10 @@ public class Figure : MonoBehaviour
     public Button button;
     public Image myImage;
     public Image greenImage;
+    public Image redImage;
     public bool visibleMoves;
     public Wspolrzedne positionOnBoard;
-    List<Wspolrzedne> posibleMoves = new List<Wspolrzedne>();
+    public List<Wspolrzedne> posibleMoves = new List<Wspolrzedne>();
     private void Start()
     {
         button.onClick.AddListener(showAvaibleMoves);
@@ -327,7 +328,7 @@ public class Figure : MonoBehaviour
                 else
                 {
                     //przod o jeden
-                    if ( y - 1 >= 0 && GameManager.figuresTable[x, y - 1] == null)
+                    if (y - 1 >= 0 && GameManager.figuresTable[x, y - 1] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y - 1));
                         //przod o dwa
@@ -447,13 +448,20 @@ public class Figure : MonoBehaviour
         bishopUpRight();
         bishopDownRight();
         bishopDownLeft();
-        bishopUpLeft();   
+        bishopUpLeft();
+    }
+    void rookMoves()
+    {
+        rookUp();
+        rookRight();
+        rookDown();
+        rookLeft();
     }
 
-    public void bishopMoves(int whichMoves)
+    public void figuresMoves(int whichMoves)
     {
         posibleMoves.Clear();
-        switch(whichMoves)
+        switch (whichMoves)
         {
             case 0:
                 bishopUpRight();
@@ -466,18 +474,35 @@ public class Figure : MonoBehaviour
             case 2:
                 bishopDownLeft();
                 break;
-
             case 3:
                 bishopUpLeft();
                 break;
+            case 4:
+                rookUp();
+                break;
+            case 5:
+                rookRight();
+                break;
+            case 6:
+                rookDown();
+                break;
+            case 7:
+                rookLeft();
+                break;
+            default: break;
         }
-
         GameManager.attackingFields.AddRange(posibleMoves);
+        /*for (int i = 0; i < posibleMoves.Count; i++)
+        {
+            var temp = Instantiate(redImage, PosibleMoves.place.transform);
+            temp.transform.localPosition = new Vector2(posibleMoves[i].Litera * 125, posibleMoves[i].Liczba * -125);
+            // Debug.Log(posibleMoves[i].toSting());
+        }*/
     }
 
-    void rookMoves()
+    public void rookLeft()
     {
-        //ruch w prawo do sciany
+        //ruch w left do sciany
         for (int i = positionOnBoard.Litera + 1; i <= 7; i++)
         {
             if (GameManager.figuresTable[i, positionOnBoard.Liczba] == null)
@@ -494,12 +519,41 @@ public class Figure : MonoBehaviour
                     {
                         GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                         GameManager.isChecked = true;
-                        Debug.Log(GameManager.isChecked);
+                        GameManager.whichMethod = 7;
                     }
                 }
                 i = 8;
             }
         }
+    }
+    public void rookDown()
+    {
+        // ruch w down do krawedzi
+        for (int i = positionOnBoard.Liczba + 1; i <= 7; i++)
+        {
+            if (GameManager.figuresTable[positionOnBoard.Litera, i] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+            }
+            else
+            {
+                if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[positionOnBoard.Litera, i].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.isChecked = true;
+                        GameManager.whichMethod = 6;
+                    }
+                }
+                i = 8;
+            }
+        }
+    }
+    public void rookRight()
+    {
         //ruch w lewo do sciany
         for (int i = positionOnBoard.Litera - 1; i >= 0; i--)
         {
@@ -517,33 +571,15 @@ public class Figure : MonoBehaviour
                     {
                         GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                         GameManager.isChecked = true;
+                        GameManager.whichMethod = 5;
                     }
                 }
                 i = -1;
             }
         }
-        // ruch w gore do krawedzi
-        for (int i = positionOnBoard.Liczba + 1; i <= 7; i++)
-        {
-            if (GameManager.figuresTable[positionOnBoard.Litera, i] == null)
-            {
-                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
-            }
-            else
-            {
-                if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                {
-                    posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
-                    //Sprawdzanie czy szach
-                    if (GameManager.figuresTable[positionOnBoard.Litera, i].nameFigure == "Krol")
-                    {
-                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
-                        GameManager.isChecked = true;
-                    }
-                }
-                i = 8;
-            }
-        }
+    }
+    public void rookUp()
+    {
         // ruch w dol do krawedzi
         for (int i = positionOnBoard.Liczba - 1; i >= 0; i--)
         {
@@ -561,6 +597,7 @@ public class Figure : MonoBehaviour
                     {
                         GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                         GameManager.isChecked = true;
+                        GameManager.whichMethod = 4;
                     }
                 }
                 i = -1;
@@ -680,5 +717,5 @@ public class Figure : MonoBehaviour
         }
     }
 
-    
+
 }

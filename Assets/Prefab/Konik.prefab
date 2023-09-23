@@ -99,6 +99,7 @@ MonoBehaviour:
   button: {fileID: 5169323808451479951}
   myImage: {fileID: 438969670942346252}
   greenImage: {fileID: 1838142571956729574, guid: de259a00118c4264cb0c96d874e4f6a4, type: 3}
+  redImage: {fileID: 1838142571956729574, guid: 866ce8fd65894bc42a78dccd5f6c1582, type: 3}
   visibleMoves: 0
 --- !u!114 &5169323808451479951
 MonoBehaviour:
