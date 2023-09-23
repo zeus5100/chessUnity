@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Figure : MonoBehaviour
 {
-    [SerializeField] string nameFigure;
+    [SerializeField] public string nameFigure;
     public Sprite imageB;
     public Sprite imageC;
     public int value;
@@ -56,6 +56,13 @@ public class Figure : MonoBehaviour
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 2));
+
+                        if (GameManager.figuresTable[x + 1, y - 2] != null && GameManager.figuresTable[x + 1, y - 2].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
+
                     }
                 }
                 // Dol-Prawo
@@ -68,6 +75,12 @@ public class Figure : MonoBehaviour
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y + 2));
+
+                        if (GameManager.figuresTable[x + 1, y + 2] != null && GameManager.figuresTable[x + 1, y + 2].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
                 // Prawo-Gora
@@ -80,6 +93,12 @@ public class Figure : MonoBehaviour
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 2, y - 1));
+
+                        if (GameManager.figuresTable[x + 2, y - 1] != null && GameManager.figuresTable[x + 2, y - 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
                 // Prawo-Dol
@@ -92,6 +111,12 @@ public class Figure : MonoBehaviour
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 2, y + 1));
+
+                        if (GameManager.figuresTable[x + 2, y + 1] != null && GameManager.figuresTable[x + 2, y + 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
 
@@ -107,6 +132,12 @@ public class Figure : MonoBehaviour
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y - 2));
+
+                        if (GameManager.figuresTable[x - 1, y - 2] != null && GameManager.figuresTable[x - 1, y - 2].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
                 // Dol-Lewo
@@ -119,6 +150,12 @@ public class Figure : MonoBehaviour
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y + 2));
+
+                        if (GameManager.figuresTable[x - 1, y + 2] != null && GameManager.figuresTable[x - 1, y + 2].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
                 // Lewo-Gora
@@ -131,6 +168,12 @@ public class Figure : MonoBehaviour
                         )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 2, y - 1));
+
+                        if (GameManager.figuresTable[x - 2, y - 1] != null && GameManager.figuresTable[x - 2, y - 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
                 // Lewo-Dol
@@ -143,6 +186,12 @@ public class Figure : MonoBehaviour
                     )
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 2, y + 1));
+
+                        if (GameManager.figuresTable[x - 2, y + 1] != null && GameManager.figuresTable[x - 2, y + 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
 
@@ -235,7 +284,7 @@ public class Figure : MonoBehaviour
                 if (color)
                 {
                     //przod o jeden
-                    if (GameManager.figuresTable[x, y + 1] == null)
+                    if (y + 1 <= 7 && GameManager.figuresTable[x, y + 1] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y + 1));
                         //przod o dwa
@@ -253,6 +302,12 @@ public class Figure : MonoBehaviour
                         GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
+
+                        if (GameManager.figuresTable[x - 1, y + 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                     //przod prawo
                     if (x + 1 <= 7 && y + 1 <= 7 &&
@@ -260,13 +315,19 @@ public class Figure : MonoBehaviour
                         GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
+
+                        if (GameManager.figuresTable[x + 1, y + 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
 
                 }
                 else
                 {
                     //przod o jeden
-                    if (GameManager.figuresTable[x, y - 1] == null)
+                    if ( y - 1 >= 0 && GameManager.figuresTable[x, y - 1] == null)
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y - 1));
                         //przod o dwa
@@ -284,6 +345,12 @@ public class Figure : MonoBehaviour
                         GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
+
+                        if (GameManager.figuresTable[x - 1, y - 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                     //przod prawo
                     if (x + 1 <= 7 && y - 1 >= 0 &&
@@ -291,6 +358,12 @@ public class Figure : MonoBehaviour
                         GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
+
+                        if (GameManager.figuresTable[x + 1, y - 1].nameFigure == "Krol")
+                        {
+                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                            GameManager.isChecked = true;
+                        }
                     }
                 }
                 break;
@@ -371,75 +444,35 @@ public class Figure : MonoBehaviour
 
     void bishopMoves()
     {
-        // ruch dol-prawo do krawedzi
-        for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba + 1; i <= 7 && j <= 7; i++, j++)
+        bishopUpRight();
+        bishopDownRight();
+        bishopDownLeft();
+        bishopUpLeft();   
+    }
+
+    public void bishopMoves(int whichMoves)
+    {
+        posibleMoves.Clear();
+        switch(whichMoves)
         {
-            if (GameManager.figuresTable[i, j] == null)
-            {
-                posibleMoves.Add(new Wspolrzedne(i, j));
-            }
-            else
-            {
-                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                {
-                    posibleMoves.Add(new Wspolrzedne(i, j));
-                }
-                i = 8;
-            }
+            case 0:
+                bishopUpRight();
+                break;
+
+            case 1:
+                bishopDownRight();
+                break;
+
+            case 2:
+                bishopDownLeft();
+                break;
+
+            case 3:
+                bishopUpLeft();
+                break;
         }
 
-        // ruch dol-lewo do krawedzi
-        for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba + 1; i >= 0 && j <= 7; i--, j++)
-        {
-            if (GameManager.figuresTable[i, j] == null)
-            {
-                posibleMoves.Add(new Wspolrzedne(i, j));
-            }
-            else
-            {
-                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                {
-                    posibleMoves.Add(new Wspolrzedne(i, j));
-                }
-                i = -1;
-            }
-        }
-
-        // ruch gora-lewo do krawedzi
-
-
-        for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba - 1; i >= 0 && j >= 0; i--, j--)
-        {
-            if (GameManager.figuresTable[i, j] == null)
-            {
-                posibleMoves.Add(new Wspolrzedne(i, j));
-            }
-            else
-            {
-                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                {
-                    posibleMoves.Add(new Wspolrzedne(i, j));
-                }
-                i = -1;
-            }
-        }
-
-        // ruch gora-prawo do krawedzi
-        for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba - 1; i <= 7 && j >= 0; i++, j--)
-        {
-            if (GameManager.figuresTable[i, j] == null)
-            {
-                posibleMoves.Add(new Wspolrzedne(i, j));
-            }
-            else
-            {
-                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
-                {
-                    posibleMoves.Add(new Wspolrzedne(i, j));
-                }
-                i = 8;
-            }
-        }
+        GameManager.attackingFields.AddRange(posibleMoves);
     }
 
     void rookMoves()
@@ -456,6 +489,13 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[i, positionOnBoard.Liczba].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.isChecked = true;
+                        Debug.Log(GameManager.isChecked);
+                    }
                 }
                 i = 8;
             }
@@ -472,6 +512,12 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[i, positionOnBoard.Liczba].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.isChecked = true;
+                    }
                 }
                 i = -1;
             }
@@ -488,6 +534,12 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[positionOnBoard.Litera, i].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.isChecked = true;
+                    }
                 }
                 i = 8;
             }
@@ -504,10 +556,129 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[positionOnBoard.Litera, i].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.isChecked = true;
+                    }
                 }
                 i = -1;
             }
         }
     }
 
+    void bishopUpRight()
+    {
+        // ruch dol-lewo do krawedzi
+        for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba + 1; i >= 0 && j <= 7; i--, j++)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[i, j].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.whichMethod = 0;
+                        GameManager.isChecked = true;
+                    }
+                }
+                i = -1;
+            }
+        }
+    }
+
+    void bishopDownRight()
+    {
+        // ruch gora-lewo do krawedzi
+
+
+        for (int i = positionOnBoard.Litera - 1, j = positionOnBoard.Liczba - 1; i >= 0 && j >= 0; i--, j--)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[i, j].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.whichMethod = 1;
+                        GameManager.isChecked = true;
+                    }
+                }
+                i = -1;
+            }
+        }
+    }
+
+
+    void bishopDownLeft()
+    {
+        // 2
+        for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba - 1; i <= 7 && j >= 0; i++, j--)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[i, j].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.whichMethod = 2;
+                        GameManager.isChecked = true;
+                    }
+                }
+                i = 8;
+            }
+        }
+    }
+
+    void bishopUpLeft()
+    {
+
+        //3
+        for (int i = positionOnBoard.Litera + 1, j = positionOnBoard.Liczba + 1; i <= 7 && j <= 7; i++, j++)
+        {
+            if (GameManager.figuresTable[i, j] == null)
+            {
+                posibleMoves.Add(new Wspolrzedne(i, j));
+            }
+            else
+            {
+                if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
+                {
+                    posibleMoves.Add(new Wspolrzedne(i, j));
+                    //Sprawdzanie czy szach
+                    if (GameManager.figuresTable[i, j].nameFigure == "Krol")
+                    {
+                        GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                        GameManager.whichMethod = 3;
+                        GameManager.isChecked = true;
+                    }
+                }
+                i = 8;
+            }
+        }
+    }
+
+    
 }

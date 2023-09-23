@@ -16,6 +16,12 @@ public class GameManager : MonoBehaviour
     public static bool colorFigureToCreate;
     public static bool posibleFigureCreate;
     public static bool whichMove;
+    
+    //Szachowanie krola
+    public static bool isChecked;
+    public static List<Figure> figuresChecking = new List<Figure>();
+    public static List<Wspolrzedne> attackingFields = new List<Wspolrzedne> ();
+    public static int whichMethod;
 
     public static int currentX;
     public static int currentY;
@@ -83,12 +89,14 @@ public class GameManager : MonoBehaviour
             {
                 Destroy(figuresTable[targetX, targetY].gameObject);
             }
+
             figuresTable[targetX, targetY] = figuresTable[currentX, currentY];
             figuresTable[currentX, currentY] = null;
             figuresTable[targetX, targetY].setPostion(targetX, targetY);
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
             generateAvaibleMoves();
+            Debug.Log(isChecked);
 
             if (whichMove)
             {
@@ -98,12 +106,35 @@ public class GameManager : MonoBehaviour
             {
                 whichMove = true;
             }
+
+            if(isChecked)
+            {
+                if(figuresChecking.Count < 2)
+                {
+                    //Sprawdzanie czy da sie zaslonic i ruchy krolem
+                    switch (figuresChecking[0].nameFigure)
+                    {
+                        case "Goniec":
+                            figuresChecking[0].bishopMoves(whichMethod);
+                            break;
+                    }
+                    foreach(Wspolrzedne w in attackingFields)
+                    {
+                        Debug.Log(w.toSting());
+                    }
+                }
+                else
+                {
+                    //Generowanie ruchow tylko krolem
+                }
+            }
         }
     }
-    // Update is called once per frame
-
+   
     static void generateAvaibleMoves()
     {
+        isChecked = false;
+        figuresChecking.Clear();
         for (int i = 0; i <= 7; i++)
         {
             for (int j = 0; j <= 7; j++)
@@ -187,6 +218,9 @@ public class GameManager : MonoBehaviour
         }
         posibleFigureCreate = true;
     }
+
+    // Update is called once per frame
+
     private void Update()
     {
 
