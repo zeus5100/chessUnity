@@ -19,6 +19,7 @@ public class Figure : MonoBehaviour
     public bool visibleMoves;
     public Wspolrzedne positionOnBoard;
     public List<Wspolrzedne> posibleMoves = new List<Wspolrzedne>();
+    public bool isProtected;
     private void Start()
     {
         button.onClick.AddListener(showAvaibleMoves);
@@ -65,6 +66,10 @@ public class Figure : MonoBehaviour
                         }
 
                     }
+                    else
+                    {
+                        GameManager.figuresTable[x + 1, y - 2].isProtected = true;
+                    }
                 }
                 // Dol-Prawo
                 if (x + 1 <= 7 && y + 2 <= 7)
@@ -82,6 +87,10 @@ public class Figure : MonoBehaviour
                             GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                             GameManager.isChecked = true;
                         }
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x + 1, y + 2].isProtected = true;
                     }
                 }
                 // Prawo-Gora
@@ -101,6 +110,10 @@ public class Figure : MonoBehaviour
                             GameManager.isChecked = true;
                         }
                     }
+                    else
+                    {
+                        GameManager.figuresTable[x + 2, y - 1].isProtected = true;
+                    }
                 }
                 // Prawo-Dol
                 if (x + 2 <= 7 && y + 1 <= 7)
@@ -118,6 +131,10 @@ public class Figure : MonoBehaviour
                             GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                             GameManager.isChecked = true;
                         }
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x + 2, y + 1].isProtected = true;
                     }
                 }
 
@@ -140,6 +157,10 @@ public class Figure : MonoBehaviour
                             GameManager.isChecked = true;
                         }
                     }
+                    else
+                    {
+                        GameManager.figuresTable[x - 1, y - 2].isProtected = true;
+                    }
                 }
                 // Dol-Lewo
                 if (x - 1 >= 0 && y + 2 <= 7)
@@ -157,6 +178,10 @@ public class Figure : MonoBehaviour
                             GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                             GameManager.isChecked = true;
                         }
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x - 1, y + 2].isProtected = true;
                     }
                 }
                 // Lewo-Gora
@@ -176,6 +201,10 @@ public class Figure : MonoBehaviour
                             GameManager.isChecked = true;
                         }
                     }
+                    else
+                    {
+                        GameManager.figuresTable[x - 2, y - 1].isProtected = true;
+                    }
                 }
                 // Lewo-Dol
                 if (x - 2 >= 0 && y + 1 <= 7)
@@ -194,6 +223,10 @@ public class Figure : MonoBehaviour
                             GameManager.isChecked = true;
                         }
                     }
+                    else
+                    {
+                        GameManager.figuresTable[x - 2, y + 1].isProtected = true;
+                    }
                 }
 
                 break;
@@ -210,72 +243,114 @@ public class Figure : MonoBehaviour
                 if (x + 1 <= 7 && y - 1 >= 0)
                 {
                     if (GameManager.figuresTable[x + 1, y - 1] == null ||
-                        GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x + 1, y - 1].isProtected))
                     {
+
                         posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x + 1, y - 1].isProtected = true;
                     }
                 }
                 //2prawa-strona
                 if (x + 1 <= 7)
                 {
                     if (GameManager.figuresTable[x + 1, y] == null ||
-                        GameManager.figuresTable[x + 1, y].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x + 1, y].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x + 1, y].isProtected)
+                        )
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x + 1, y].isProtected = true;
                     }
                 }
                 //3prawy-dolny
                 if (x + 1 <= 7 && y + 1 <= 7)
                 {
                     if (GameManager.figuresTable[x + 1, y + 1] == null ||
-                        GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x + 1, y + 1].isProtected))
                     {
                         posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x + 1, y + 1].isProtected = true;
                     }
                 }
                 //4dolna-strona
                 if (y + 1 <= 7)
                 {
                     if (GameManager.figuresTable[x, y + 1] == null ||
-                        GameManager.figuresTable[x, y + 1].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x, y + 1].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x, y + 1].isProtected))
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x, y + 1].isProtected = true;
                     }
                 }
                 //5lewy-dolny
                 if (x - 1 >= 0 && y + 1 <= 7)
                 {
                     if (GameManager.figuresTable[x - 1, y + 1] == null ||
-                        GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x - 1, y + 1].isProtected))
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x - 1, y + 1].isProtected = true;
                     }
                 }
                 //6lewa-strona
                 if (x - 1 >= 0)
                 {
                     if (GameManager.figuresTable[x - 1, y] == null ||
-                        GameManager.figuresTable[x - 1, y].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x - 1, y].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x - 1, y].isProtected))
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x - 1, y].isProtected = true;
                     }
                 }
                 //7lewy-gorny
                 if (x - 1 >= 0 && y - 1 >= 0)
                 {
                     if (GameManager.figuresTable[x - 1, y - 1] == null ||
-                        GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x - 1, y - 1].isProtected))
                     {
                         posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x - 1, y - 1].isProtected = true;
                     }
                 }
                 //8gorna-strona
                 if (y - 1 >= 0)
                 {
                     if (GameManager.figuresTable[x, y - 1] == null ||
-                        GameManager.figuresTable[x, y - 1].color != GameManager.figuresTable[x, y].color)
+                        (GameManager.figuresTable[x, y - 1].color != GameManager.figuresTable[x, y].color &&
+                        !GameManager.figuresTable[x, y - 1].isProtected))
                     {
                         posibleMoves.Add(new Wspolrzedne(x, y - 1));
+                    }
+                    else
+                    {
+                        GameManager.figuresTable[x, y - 1].isProtected = true;
                     }
                 }
                 break;
@@ -309,6 +384,10 @@ public class Figure : MonoBehaviour
                             GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                             GameManager.isChecked = true;
                         }
+                        else
+                        {
+                            GameManager.figuresTable[x - 1, y + 1].isProtected = true;
+                        }
                     }
                     //przod prawo
                     if (x + 1 <= 7 && y + 1 <= 7 &&
@@ -321,6 +400,10 @@ public class Figure : MonoBehaviour
                         {
                             GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                             GameManager.isChecked = true;
+                        }
+                        else
+                        {
+                            GameManager.figuresTable[x + 1, y + 1].isProtected = true;
                         }
                     }
 
@@ -352,6 +435,10 @@ public class Figure : MonoBehaviour
                             GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                             GameManager.isChecked = true;
                         }
+                        else
+                        {
+                            GameManager.figuresTable[x - 1, y - 1].isProtected = true;
+                        }
                     }
                     //przod prawo
                     if (x + 1 <= 7 && y - 1 >= 0 &&
@@ -364,6 +451,10 @@ public class Figure : MonoBehaviour
                         {
                             GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                             GameManager.isChecked = true;
+                        }
+                        else
+                        {
+                            GameManager.figuresTable[x + 1, y - 1].isProtected = true;
                         }
                     }
                 }
@@ -393,7 +484,6 @@ public class Figure : MonoBehaviour
                 GameManager.currentY = positionOnBoard.Liczba;
                 GameManager.posibleFigureCreate = false;
                 visibleMoves = true;
-                Debug.Log("K00tas");
             }
         }
     }
@@ -522,6 +612,10 @@ public class Figure : MonoBehaviour
                         GameManager.whichMethod = 7;
                     }
                 }
+                else
+                {
+                    GameManager.figuresTable[i, positionOnBoard.Liczba].isProtected = true;
+                }
                 i = 8;
             }
         }
@@ -547,6 +641,10 @@ public class Figure : MonoBehaviour
                         GameManager.isChecked = true;
                         GameManager.whichMethod = 6;
                     }
+                }
+                else
+                {
+                    GameManager.figuresTable[positionOnBoard.Litera, i].isProtected = true;
                 }
                 i = 8;
             }
@@ -574,6 +672,10 @@ public class Figure : MonoBehaviour
                         GameManager.whichMethod = 5;
                     }
                 }
+                else
+                {
+                    GameManager.figuresTable[i, positionOnBoard.Liczba].isProtected = true;
+                }
                 i = -1;
             }
         }
@@ -599,6 +701,10 @@ public class Figure : MonoBehaviour
                         GameManager.isChecked = true;
                         GameManager.whichMethod = 4;
                     }
+                }
+                else
+                {
+                    GameManager.figuresTable[positionOnBoard.Litera, i].isProtected = true;
                 }
                 i = -1;
             }
@@ -626,6 +732,10 @@ public class Figure : MonoBehaviour
                         GameManager.whichMethod = 0;
                         GameManager.isChecked = true;
                     }
+                }
+                else
+                {
+                    GameManager.figuresTable[i, j].isProtected = true;
                 }
                 i = -1;
             }
@@ -656,6 +766,10 @@ public class Figure : MonoBehaviour
                         GameManager.isChecked = true;
                     }
                 }
+                else
+                {
+                    GameManager.figuresTable[i, j].isProtected = true;
+                }
                 i = -1;
             }
         }
@@ -684,6 +798,10 @@ public class Figure : MonoBehaviour
                         GameManager.isChecked = true;
                     }
                 }
+                else
+                {
+                    GameManager.figuresTable[i, j].isProtected = true;
+                }
                 i = 8;
             }
         }
@@ -711,6 +829,10 @@ public class Figure : MonoBehaviour
                         GameManager.whichMethod = 3;
                         GameManager.isChecked = true;
                     }
+                }
+                else
+                {
+                    GameManager.figuresTable[i, j].isProtected = true;
                 }
                 i = 8;
             }

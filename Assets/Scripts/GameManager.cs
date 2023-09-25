@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     public static bool colorFigureToCreate;
     public static bool posibleFigureCreate;
     public static bool whichMove;
+    //pozycja krola
+
+    public static Wspolrzedne posKing;
 
     //Szachowanie krola
     public static bool isChecked;
@@ -98,8 +101,6 @@ public class GameManager : MonoBehaviour
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
             attackingFields.Clear();
-            generateAvaibleMoves();
-
             if (whichMove)
             {
                 whichMove = false;
@@ -108,11 +109,14 @@ public class GameManager : MonoBehaviour
             {
                 whichMove = true;
             }
-
+            generateAvaibleMoves();
+            int indexX = posKing.Litera;
+            int indexY = posKing.Liczba;
             if (isChecked)
             {
                 if (figuresChecking.Count < 2)
                 {
+                    //figury które mog¹ zas³oniæ szacha
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
                     figuresChecking[0].figuresMoves(whichMethod);
                     foreach (Figure f in figuresTable)
@@ -138,44 +142,83 @@ public class GameManager : MonoBehaviour
                             f.posibleMoves.AddRange(tempAvaibleMoves);
                         }
                     }
-                    int indexX = attackingFields[attackingFields.Count - 1].Litera;
-                    int indexY = attackingFields[attackingFields.Count - 1].Liczba;
                     figuresTable[indexX, indexY].generateAvaibleMoves();
-                    List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
-                    foreach (Figure f in figuresTable)
+                    Wspolrzedne toDelete = null;
+                    switch (whichMethod)
                     {
-                        if (f != null && f.color != whichMove)
-                        {
-                            foreach (Wspolrzedne wAttack in f.posibleMoves)
-                            {
-                                for (int i = 0; i < tempKingMoves.Count; i++)
-                                {
-                                    if ((wAttack.Litera == tempKingMoves[i].Litera && wAttack.Liczba == tempKingMoves[i].Liczba))
-                                    {
-                                        figuresTable[indexX, indexY].posibleMoves.Remove(tempKingMoves[i]);
-                                    }
-                                }
-                                /*foreach (Wspolrzedne wAttack in attackingFields)
-                                {
-                                    if ((wDefence.Litera == wAttack.Litera && wDefence.Liczba == wAttack.Liczba))
-                                    {
-                                        tempAvaibleMoves.Add(wAttack);
-                                    }
-                                    if (wDefence.Liczba == figuresChecking[0].positionOnBoard.Liczba && wDefence.Litera == figuresChecking[0].positionOnBoard.Litera)
-                                    {
-                                        tempAvaibleMoves.Add(figuresChecking[0].positionOnBoard);
-                                    }
-                                }*/
-                            }/*
-                            f.posibleMoves.Clear();
-                            f.posibleMoves.AddRange(tempAvaibleMoves);*/
-                        }
-                    }
+                        case 0:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX - 1) && x.Liczba == (indexY + 1));
 
+                            break;
+                        case 1:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX - 1) && x.Liczba == (indexY - 1));
+
+                            break;
+                        case 2:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX + 1) && x.Liczba == (indexY - 1));
+
+                            break;
+                        case 3:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX + 1) && x.Liczba == (indexY + 1));
+
+                            break;
+                        case 4:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX) && x.Liczba == (indexY + 1));
+
+                            break;
+                        case 5:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX - 1) && x.Liczba == (indexY));
+
+                            break;
+                        case 6:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX) && x.Liczba == (indexY - 1));
+
+                            break;
+                        case 7:
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX + 1) && x.Liczba == (indexY));
+
+                            break;
+                    }
+                    if (toDelete != null)
+                    {
+                        figuresTable[indexX, indexY].posibleMoves.Remove(toDelete);
+                    }
+                    figuresChecking[0].generateAvaibleMoves();
+                    //na nowo ruchy króla
                 }
                 else
                 {
                     //Generowanie ruchow tylko krolem
+                }
+            }
+            List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
+            foreach (Figure f in figuresTable)
+            {
+                if (f != null && f.color != whichMove)
+                {
+                    foreach (Wspolrzedne wAttack in f.posibleMoves)
+                    {
+                        for (int i = 0; i < tempKingMoves.Count; i++)
+                        {
+                            if ((wAttack.Litera == tempKingMoves[i].Litera && wAttack.Liczba == tempKingMoves[i].Liczba))
+                            {
+                                figuresTable[indexX, indexY].posibleMoves.Remove(tempKingMoves[i]);
+                            }
+                        }
+                        /*foreach (Wspolrzedne wAttack in attackingFields)
+                        {
+                            if ((wDefence.Litera == wAttack.Litera && wDefence.Liczba == wAttack.Liczba))
+                            {
+                                tempAvaibleMoves.Add(wAttack);
+                            }
+                            if (wDefence.Liczba == figuresChecking[0].positionOnBoard.Liczba && wDefence.Litera == figuresChecking[0].positionOnBoard.Litera)
+                            {
+                                tempAvaibleMoves.Add(figuresChecking[0].positionOnBoard);
+                            }
+                        }*/
+                    }/*
+                            f.posibleMoves.Clear();
+                            f.posibleMoves.AddRange(tempAvaibleMoves);*/
                 }
             }
         }
@@ -185,6 +228,20 @@ public class GameManager : MonoBehaviour
     {
         isChecked = false;
         figuresChecking.Clear();
+        for (int i = 0; i <= 7; i++)
+        {
+            for (int j = 0; j <= 7; j++)
+            {
+                if (figuresTable[i, j] != null)
+                {
+                    figuresTable[i, j].isProtected = false;
+                    if (figuresTable[i, j].nameFigure == "Krol" && figuresTable[i, j].color == whichMove)
+                    {
+                        posKing = figuresTable[i, j].positionOnBoard;
+                    }
+                }
+            }
+        }
         for (int i = 0; i <= 7; i++)
         {
             for (int j = 0; j <= 7; j++)
