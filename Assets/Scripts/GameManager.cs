@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public static bool colorFigureToCreate;
     public static bool posibleFigureCreate;
     public static bool whichMove;
+    public static bool canGuard = false;
     //pozycja krola
 
     public static Wspolrzedne posKing;
@@ -114,9 +115,11 @@ public class GameManager : MonoBehaviour
             int indexY = posKing.Liczba;
             if (isChecked)
             {
+                isChecked = false;
                 if (figuresChecking.Count < 2)
                 {
                     //figury które mog¹ zas³oniæ szacha
+                    figuresTable[indexX, indexY].posibleMoves.Clear();
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
                     figuresChecking[0].figuresMoves(whichMethod);
                     foreach (Figure f in figuresTable)
@@ -137,6 +140,12 @@ public class GameManager : MonoBehaviour
                                         tempAvaibleMoves.Add(figuresChecking[0].positionOnBoard);
                                     }
                                 }
+                            }
+
+                            if(tempAvaibleMoves.Count > 0)
+                            {
+                                Debug.Log(f.nameFigure);
+                                canGuard = true;
                             }
                             f.posibleMoves.Clear();
                             f.posibleMoves.AddRange(tempAvaibleMoves);
@@ -183,12 +192,20 @@ public class GameManager : MonoBehaviour
                     {
                         figuresTable[indexX, indexY].posibleMoves.Remove(toDelete);
                     }
+                    
+                    
                     figuresChecking[0].generateAvaibleMoves();
                     //na nowo ruchy króla
                 }
                 else
                 {
-                    //Generowanie ruchow tylko krolem
+                    foreach(Figure f in figuresTable)
+                    {
+                        if(f != null && f.color == whichMove && f.nameFigure != "Krol")
+                        {
+                            f.posibleMoves.Clear();
+                        }
+                    }
                 }
             }
             List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
@@ -220,6 +237,12 @@ public class GameManager : MonoBehaviour
                             f.posibleMoves.Clear();
                             f.posibleMoves.AddRange(tempAvaibleMoves);*/
                 }
+            }
+            Debug.Log(canGuard);
+            Debug.Log(figuresTable[indexX, indexY].posibleMoves.Count);
+            if (!canGuard && figuresTable[indexX, indexY].posibleMoves.Count == 0)
+            {
+                Debug.Log("Checkmate");
             }
         }
     }
