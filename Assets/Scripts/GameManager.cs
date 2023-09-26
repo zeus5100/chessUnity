@@ -38,6 +38,29 @@ public class GameManager : MonoBehaviour
 
     public Button resetGame;
 
+    //wyczysc plansze
+
+    public Button clearButton;
+
+
+    //historia ruchów
+    public MovePrefab movePrefab;
+    public static MovePrefab staticMovePrefab;
+    public static List<MoveObject> movesHistory = new List<MoveObject>();
+
+    public GameObject historyPlace;
+    public static GameObject staticHistoryPlace;
+
+
+    //do roszady
+
+    /*
+        public static bool whiteLongCast = true;
+        public static bool whiteShortCast = true;
+        public static bool blackLongCast = true;
+        public static bool blackShortCast = true;
+        public static bool whiteKingMove = false;
+        public */
     // Start is called before the first frame update
     void Start()
     {
@@ -62,8 +85,11 @@ public class GameManager : MonoBehaviour
         //przypisanie niestatycznych elementów do statycznych zmiennych
         staticFigures = avaibleFigures;
         staticPlansza = plansza;
+        staticMovePrefab = movePrefab;
+        staticHistoryPlace = historyPlace;
 
         resetGame.onClick.AddListener(generateStartPosition);
+        clearButton.onClick.AddListener(clearBoard);
         //*************
     }
     public static void addFigure(int x, int y)
@@ -86,28 +112,55 @@ public class GameManager : MonoBehaviour
         colorFigureToCreate = color;
         posibleFigureCreate = true;
     }
-
+    public static char nameToSymbol(string x)
+    {
+        switch (x)
+        {
+            case "Wieza": return 'R';
+            case "Pionek": return ' ';
+            case "Kon": return 'N';
+            case "Krol": return 'K';
+            case "Hetman": return 'Q';
+            case "Goniec": return 'B';
+        }
+        return ' ';
+    }
     public static void moveFigure(int targetX, int targetY)
     {
         if (figuresTable[currentX, currentY] != null)
         {
+            var obj = new MoveObject();
+            obj.currentPos = new Wspolrzedne(targetX, targetY);
+            obj.lastPos = figuresTable[currentX, currentY].positionOnBoard;
+            obj.capture = false;
+            obj.figureSymbol = nameToSymbol(figuresTable[currentX, currentY].nameFigure);
             if (figuresTable[targetX, targetY] != null)
             {
+                obj.capture = true;
                 Destroy(figuresTable[targetX, targetY].gameObject);
             }
-
+            movesHistory.Add(obj);
             figuresTable[targetX, targetY] = figuresTable[currentX, currentY];
             figuresTable[currentX, currentY] = null;
             figuresTable[targetX, targetY].setPostion(targetX, targetY);
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
             attackingFields.Clear();
+
+
             if (whichMove)
             {
+                var moveHistory = Instantiate(staticMovePrefab, staticHistoryPlace.transform);
+                moveHistory.setMoveCount((movesHistory.Count + 1) / 2);
+                moveHistory.setWhiteMove(obj.toString());
                 whichMove = false;
             }
             else
             {
+                int lastChildIndex = staticHistoryPlace.transform.childCount - 1;
+                Transform lastChildTransform = staticHistoryPlace.transform.GetChild(lastChildIndex);
+                MovePrefab lastChildMoveObject = lastChildTransform.GetComponent<MovePrefab>();
+                lastChildMoveObject.setBlackMove(obj.toString());
                 whichMove = true;
             }
             generateAvaibleMoves();
@@ -142,7 +195,7 @@ public class GameManager : MonoBehaviour
                                 }
                             }
 
-                            if(tempAvaibleMoves.Count > 0)
+                            if (tempAvaibleMoves.Count > 0)
                             {
                                 Debug.Log(f.nameFigure);
                                 canGuard = true;
@@ -192,16 +245,16 @@ public class GameManager : MonoBehaviour
                     {
                         figuresTable[indexX, indexY].posibleMoves.Remove(toDelete);
                     }
-                    
-                    
+
+
                     figuresChecking[0].generateAvaibleMoves();
                     //na nowo ruchy króla
                 }
                 else
                 {
-                    foreach(Figure f in figuresTable)
+                    foreach (Figure f in figuresTable)
                     {
-                        if(f != null && f.color == whichMove && f.nameFigure != "Krol")
+                        if (f != null && f.color == whichMove && f.nameFigure != "Krol")
                         {
                             f.posibleMoves.Clear();
                         }
@@ -240,7 +293,7 @@ public class GameManager : MonoBehaviour
             }
             Debug.Log(canGuard);
             Debug.Log(figuresTable[indexX, indexY].posibleMoves.Count);
-            if (!canGuard && figuresTable[indexX, indexY].posibleMoves.Count == 0)
+            if (!canGuard && figuresTable[indexX, indexY].posibleMoves.Count == 0 && isChecked)
             {
                 Debug.Log("Checkmate");
             }
@@ -277,9 +330,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static void generateStartPosition()
+    public static void clearBoard()
     {
-        Debug.Log("Debug");
         for (int i = 0; i <= 7; i++)
         {
             for (int j = 0; j <= 7; j++)
@@ -291,6 +343,15 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        foreach (Transform child in PosibleMoves.place.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public static void generateStartPosition()
+    {
+        clearBoard();
         //white
         //white
         whichMove = true;

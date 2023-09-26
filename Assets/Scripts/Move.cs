@@ -7,7 +7,7 @@ public class Move : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    private Button moveButton;
+    public Button moveButton;
     void Start()
     {
         moveButton = GetComponent<Button>();

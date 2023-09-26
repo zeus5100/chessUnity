@@ -16,15 +16,14 @@ public class Figure : MonoBehaviour
     public Image myImage;
     public Image greenImage;
     public Image redImage;
-    public bool visibleMoves;
     public Wspolrzedne positionOnBoard;
     public List<Wspolrzedne> posibleMoves = new List<Wspolrzedne>();
     public bool isProtected;
+    public bool hasMoved;
     private void Start()
     {
+        hasMoved = false;
         button.onClick.AddListener(showAvaibleMoves);
-        visibleMoves = true;
-        showAvaibleMoves();
     }
 
     private void Update()
@@ -468,23 +467,31 @@ public class Figure : MonoBehaviour
             // Debug.Log(posibleMoves[i].toSting());
         }*/
     }
+
+
+    public void checkPosibleCast()
+    {
+        if (!GameManager.isChecked)
+        {
+            if (GameManager.figuresTable[positionOnBoard.Litera - 1, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera - 2, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera - 3, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera - 4, positionOnBoard.Liczba] != null &&
+                !hasMoved &&
+                !GameManager.figuresTable[positionOnBoard.Litera - 4, positionOnBoard.Liczba].hasMoved)
+            {
+
+            }
+        }
+    }
     public void showAvaibleMoves()
     {
-
-        if (visibleMoves)
+        if (GameManager.whichMove == color)
         {
-            visibleMoves = false;
-        }
-        else
-        {
-            if (GameManager.whichMove == color)
-            {
-                togetherGenerate();
-                GameManager.currentX = positionOnBoard.Litera;
-                GameManager.currentY = positionOnBoard.Liczba;
-                GameManager.posibleFigureCreate = false;
-                visibleMoves = true;
-            }
+            togetherGenerate();
+            GameManager.currentX = positionOnBoard.Litera;
+            GameManager.currentY = positionOnBoard.Liczba;
+            GameManager.posibleFigureCreate = false;
         }
     }
     public void togetherGenerate()
@@ -507,7 +514,6 @@ public class Figure : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        visibleMoves = false;
     }
     public void setPostion(int a, int b)
     {
