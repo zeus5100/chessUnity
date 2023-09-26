@@ -352,6 +352,7 @@ public class Figure : MonoBehaviour
                         GameManager.figuresTable[x, y - 1].isProtected = true;
                     }
                 }
+                checkPosibleCast();
                 break;
             case "Pionek":
                 x = positionOnBoard.Litera;
@@ -473,14 +474,23 @@ public class Figure : MonoBehaviour
     {
         if (!GameManager.isChecked)
         {
-            if (GameManager.figuresTable[positionOnBoard.Litera - 1, positionOnBoard.Liczba] == null &&
-                GameManager.figuresTable[positionOnBoard.Litera - 2, positionOnBoard.Liczba] == null &&
-                GameManager.figuresTable[positionOnBoard.Litera - 3, positionOnBoard.Liczba] == null &&
-                GameManager.figuresTable[positionOnBoard.Litera - 4, positionOnBoard.Liczba] != null &&
-                !hasMoved &&
-                !GameManager.figuresTable[positionOnBoard.Litera - 4, positionOnBoard.Liczba].hasMoved)
-            {
+            if (!hasMoved &&
+                GameManager.figuresTable[positionOnBoard.Litera + 1, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera + 2, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera + 3, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera + 4, positionOnBoard.Liczba] != null &&
 
+                !GameManager.figuresTable[positionOnBoard.Litera + 4, positionOnBoard.Liczba].hasMoved)
+            {
+                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera + 2, positionOnBoard.Liczba));
+            }
+            if (!hasMoved &&
+                GameManager.figuresTable[positionOnBoard.Litera - 1, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera - 2, positionOnBoard.Liczba] == null &&
+                GameManager.figuresTable[positionOnBoard.Litera - 3, positionOnBoard.Liczba] != null &&
+                !GameManager.figuresTable[positionOnBoard.Litera - 3, positionOnBoard.Liczba].hasMoved)
+            {
+                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera - 2, positionOnBoard.Liczba));
             }
         }
     }

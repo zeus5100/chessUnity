@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
@@ -140,9 +141,11 @@ public class GameManager : MonoBehaviour
                 Destroy(figuresTable[targetX, targetY].gameObject);
             }
             movesHistory.Add(obj);
+            kingCastle(targetX);
             figuresTable[targetX, targetY] = figuresTable[currentX, currentY];
             figuresTable[currentX, currentY] = null;
             figuresTable[targetX, targetY].setPostion(targetX, targetY);
+            figuresTable[targetX, targetY].hasMoved = true;
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
             attackingFields.Clear();
@@ -296,6 +299,30 @@ public class GameManager : MonoBehaviour
             if (!canGuard && figuresTable[indexX, indexY].posibleMoves.Count == 0 && isChecked)
             {
                 Debug.Log("Checkmate");
+            }
+        }
+    }
+
+    public static void kingCastle(int x)
+    {
+
+        if (figuresTable[currentX, currentY].nameFigure == "Krol")
+        {
+            if (x == 5)
+            {
+                figuresTable[4, currentY] = figuresTable[7, currentY];
+                figuresTable[7, currentY] = null;
+                figuresTable[4, currentY].setPostion(4, currentY);
+                figuresTable[4, currentY].hasMoved = true;
+                figuresTable[4, currentY].transform.localPosition = new Vector2(figuresTable[4, currentY].positionOnBoard.Litera * 125, figuresTable[4, currentY].positionOnBoard.Liczba * -125);
+            }
+            if (x == 1)
+            {
+                figuresTable[2, currentY] = figuresTable[0, currentY];
+                figuresTable[0, currentY] = null;
+                figuresTable[2, currentY].setPostion(2, currentY);
+                figuresTable[2, currentY].hasMoved = true;
+                figuresTable[2, currentY].transform.localPosition = new Vector2(figuresTable[2, currentY].positionOnBoard.Litera * 125, figuresTable[2, currentY].positionOnBoard.Liczba * -125);
             }
         }
     }
