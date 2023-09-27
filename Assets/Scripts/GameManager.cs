@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
@@ -58,12 +59,19 @@ public class GameManager : MonoBehaviour
     public GameObject promotePlace;
     public static GameObject staticPromotePlace;
 
+    //historia pozycji
+    public static Dictionary<string, int> samePositionCount = new Dictionary<string, int>();
+
+    //powtorzenie 50 razy
+
+    public static int countWithoutCapture;
 
     void Start()
     {
 
         whichMove = true;
         whichMethod = 99;
+        countWithoutCapture = 0;
         for (int i = 1; i <= 8; i++)
         {
             for (int j = 1; j <= 4; j++)
@@ -131,6 +139,19 @@ public class GameManager : MonoBehaviour
         }
         return ' ';
     }
+
+    public static string PositionToString()
+    {
+        string s = "";
+        foreach (Figure f in figuresTable)
+        {
+            if (f != null)
+            {
+                s += f.toString();
+            }
+        }
+        return s;
+    }
     public static void moveFigure(int targetX, int targetY)
     {
         if (figuresTable[currentX, currentY] != null)
@@ -144,10 +165,17 @@ public class GameManager : MonoBehaviour
             obj.lastPos = figuresTable[currentX, currentY].positionOnBoard;
             obj.capture = false;
             obj.figureSymbol = nameToSymbol(figuresTable[currentX, currentY].nameFigure);
+            countWithoutCapture++;
             if (figuresTable[targetX, targetY] != null)
             {
                 obj.capture = true;
+                countWithoutCapture = 0;
                 Destroy(figuresTable[targetX, targetY].gameObject);
+            }
+            if (countWithoutCapture == 50)
+            {
+                Debug.Log("Draw");
+                return;
             }
             movesHistory.Add(obj);
             kingCastle(targetX);
@@ -159,6 +187,21 @@ public class GameManager : MonoBehaviour
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
             attackingFields.Clear();
+            var position = PositionToString();
+            int value;
+            if (!samePositionCount.TryGetValue(position, out value))
+            {
+                samePositionCount[position] = 1;
+            }
+            else
+            {
+                samePositionCount[position] += 1;
+                if (samePositionCount[position] == 3)
+                {
+                    Debug.Log("Draw");
+                    return;
+                }
+            }
 
 
 
@@ -274,20 +317,23 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            foreach (Figure f in figuresTable)
+            if (!isChecked)
             {
-                if (f != null && f.nameFigure == "Pionek")
+                foreach (Figure f in figuresTable)
                 {
-                    f.posibleMoves.Clear();
-                    if (f.color)
+                    if (f != null && f.nameFigure == "Pionek")
                     {
-                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba + 1));
-                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba + 1));
-                    }
-                    else
-                    {
-                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba - 1));
-                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba - 1));
+                        f.posibleMoves.Clear();
+                        if (f.color)
+                        {
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba + 1));
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba + 1));
+                        }
+                        else
+                        {
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba - 1));
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba - 1));
+                        }
                     }
                 }
             }
@@ -321,11 +367,15 @@ public class GameManager : MonoBehaviour
                             f.posibleMoves.AddRange(tempAvaibleMoves);*/
                 }
             }
-            foreach (Figure f in figuresTable)
+            if (!isChecked)
             {
-                if (f != null && f.nameFigure == "Pionek")
+                foreach (Figure f in figuresTable)
                 {
-                    f.generateAvaibleMoves();
+                    if (f != null && f.nameFigure == "Pionek")
+                    {
+                        f.posibleMoves.Clear();
+                        f.generateAvaibleMoves();
+                    }
                 }
             }
             bool isDraw = true;
@@ -474,6 +524,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        samePositionCount.Clear();
+        countWithoutCapture = 0;
     }
 
     public static void generateStartPosition()
@@ -535,6 +587,8 @@ public class GameManager : MonoBehaviour
             addFigure(i, 6);
         }
         posibleFigureCreate = true;
+        var position = PositionToString();
+        samePositionCount[position] = 1;
     }
 
     // Update is called once per frame

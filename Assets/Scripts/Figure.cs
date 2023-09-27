@@ -30,6 +30,10 @@ public class Figure : MonoBehaviour
     {
 
     }
+    public string toString()
+    {
+        return nameFigure + positionOnBoard.Litera.ToString() + positionOnBoard.Liczba.ToString();
+    }
     public void generateAvaibleMoves()
     {
         posibleMoves.Clear();
