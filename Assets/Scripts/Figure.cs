@@ -372,38 +372,61 @@ public class Figure : MonoBehaviour
                             }
                         }
                     }
-                    //przod lewo
-                    if (x - 1 >= 0 && y + 1 <= 7 &&
-                        GameManager.figuresTable[x - 1, y + 1] != null &&
-                        GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                    //przod prawo
+                    if (x - 1 >= 0 && y + 1 <= 7)
                     {
-                        posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
-
-                        if (GameManager.figuresTable[x - 1, y + 1].nameFigure == "Krol")
+                        if (GameManager.figuresTable[x - 1, y + 1] != null &&
+                        GameManager.figuresTable[x - 1, y + 1].color != GameManager.figuresTable[x, y].color)
                         {
-                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
-                            GameManager.isChecked = true;
+                            posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
+                            if (GameManager.figuresTable[x - 1, y + 1].nameFigure == "Krol")
+                            {
+                                GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                                GameManager.isChecked = true;
+                            }
+                            else
+                            {
+                                GameManager.figuresTable[x - 1, y + 1].isProtected = true;
+                            }
                         }
-                        else
+                        else if (y == 4 &&
+                            GameManager.figuresTable[x - 1, y] != null &&
+                            GameManager.figuresTable[x - 1, y].nameFigure == "Pionek" &&
+                            GameManager.figuresTable[x - 1, y].color == false &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Litera == (x - 1) &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].lastPos.Liczba - GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Liczba == 2
+                            )
                         {
-                            GameManager.figuresTable[x - 1, y + 1].isProtected = true;
+                            posibleMoves.Add(new Wspolrzedne(x - 1, y + 1));
                         }
                     }
-                    //przod prawo
-                    if (x + 1 <= 7 && y + 1 <= 7 &&
-                        GameManager.figuresTable[x + 1, y + 1] != null &&
-                        GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                    //przod lewo
+                    if (x + 1 <= 7 && y + 1 <= 7)
                     {
-                        posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
+                        if (GameManager.figuresTable[x + 1, y + 1] != null &&
+                        GameManager.figuresTable[x + 1, y + 1].color != GameManager.figuresTable[x, y].color)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
 
-                        if (GameManager.figuresTable[x + 1, y + 1].nameFigure == "Krol")
-                        {
-                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
-                            GameManager.isChecked = true;
+                            if (GameManager.figuresTable[x + 1, y + 1].nameFigure == "Krol")
+                            {
+                                GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                                GameManager.isChecked = true;
+                            }
+                            else
+                            {
+                                GameManager.figuresTable[x + 1, y + 1].isProtected = true;
+                            }
                         }
-                        else
+                        else if (y == 4 &&
+                            GameManager.figuresTable[x + 1, y] != null &&
+                            GameManager.figuresTable[x + 1, y].nameFigure == "Pionek" &&
+                            GameManager.figuresTable[x + 1, y].color == false &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Litera == (x + 1) &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].lastPos.Liczba - GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Liczba == 2
+                            )
                         {
-                            GameManager.figuresTable[x + 1, y + 1].isProtected = true;
+                            posibleMoves.Add(new Wspolrzedne(x + 1, y + 1));
                         }
                     }
 
@@ -424,38 +447,64 @@ public class Figure : MonoBehaviour
                         }
                     }
                     //przod lewo
-                    if (x - 1 >= 0 && y - 1 >= 0 &&
-                        GameManager.figuresTable[x - 1, y - 1] != null &&
-                        GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                    if (x - 1 >= 0 && y - 1 >= 0)
                     {
-                        posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
+                        if (GameManager.figuresTable[x - 1, y - 1] != null &&
+                        GameManager.figuresTable[x - 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
 
-                        if (GameManager.figuresTable[x - 1, y - 1].nameFigure == "Krol")
-                        {
-                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
-                            GameManager.isChecked = true;
+                            if (GameManager.figuresTable[x - 1, y - 1].nameFigure == "Krol")
+                            {
+                                GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                                GameManager.isChecked = true;
+                            }
+                            else
+                            {
+                                GameManager.figuresTable[x - 1, y - 1].isProtected = true;
+                            }
                         }
-                        else
+                        else if (y == 3 &&
+                            GameManager.figuresTable[x - 1, y] != null &&
+                            GameManager.figuresTable[x - 1, y].nameFigure == "Pionek" &&
+                            GameManager.figuresTable[x - 1, y].color == true &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Litera == (x - 1) &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Liczba - GameManager.movesHistory[GameManager.movesHistory.Count - 1].lastPos.Liczba == 2
+                            )
                         {
-                            GameManager.figuresTable[x - 1, y - 1].isProtected = true;
+                            posibleMoves.Add(new Wspolrzedne(x - 1, y - 1));
                         }
+
                     }
                     //przod prawo
-                    if (x + 1 <= 7 && y - 1 >= 0 &&
-                        GameManager.figuresTable[x + 1, y - 1] != null &&
-                        GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                    if (x + 1 <= 7 && y - 1 >= 0)
                     {
-                        posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
+                        if (GameManager.figuresTable[x + 1, y - 1] != null &&
+                        GameManager.figuresTable[x + 1, y - 1].color != GameManager.figuresTable[x, y].color)
+                        {
+                            posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
 
-                        if (GameManager.figuresTable[x + 1, y - 1].nameFigure == "Krol")
-                        {
-                            GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
-                            GameManager.isChecked = true;
+                            if (GameManager.figuresTable[x + 1, y - 1].nameFigure == "Krol")
+                            {
+                                GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
+                                GameManager.isChecked = true;
+                            }
+                            else
+                            {
+                                GameManager.figuresTable[x + 1, y - 1].isProtected = true;
+                            }
                         }
-                        else
+                        else if (y == 3 &&
+                            GameManager.figuresTable[x + 1, y] != null &&
+                            GameManager.figuresTable[x + 1, y].nameFigure == "Pionek" &&
+                            GameManager.figuresTable[x + 1, y].color == true &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Litera == (x + 1) &&
+                            GameManager.movesHistory[GameManager.movesHistory.Count - 1].currentPos.Liczba - GameManager.movesHistory[GameManager.movesHistory.Count - 1].lastPos.Liczba == 2
+                            )
                         {
-                            GameManager.figuresTable[x + 1, y - 1].isProtected = true;
+                            posibleMoves.Add(new Wspolrzedne(x + 1, y - 1));
                         }
+
                     }
                 }
                 break;
@@ -482,12 +531,12 @@ public class Figure : MonoBehaviour
                 GameManager.figuresTable[positionOnBoard.Litera + 4, positionOnBoard.Liczba] != null &&
                 !GameManager.figuresTable[positionOnBoard.Litera + 4, positionOnBoard.Liczba].hasMoved)
             {
-             
-                foreach(Figure figure in GameManager.figuresTable)
+
+                foreach (Figure figure in GameManager.figuresTable)
                 {
-                    if(figure != null && figure != GameManager.whichMove)
+                    if (figure != null && figure != GameManager.whichMove)
                     {
-                        foreach(Wspolrzedne wAttack in figure.posibleMoves)
+                        foreach (Wspolrzedne wAttack in figure.posibleMoves)
                         {
                             if ((wAttack.Litera == positionOnBoard.Litera + 1 && wAttack.Liczba == positionOnBoard.Liczba) ||
                                 (wAttack.Litera == positionOnBoard.Litera + 2 && wAttack.Liczba == positionOnBoard.Liczba) ||

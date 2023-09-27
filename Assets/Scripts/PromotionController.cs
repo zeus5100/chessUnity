@@ -11,7 +11,7 @@ public class PromotionController : MonoBehaviour
     public static int x;
     public static int y;
 
-    
+
     public static void choosedWhite()
     {
         staticWhiteFigures.SetActive(true);
@@ -21,7 +21,7 @@ public class PromotionController : MonoBehaviour
     public static void choosedBlack()
     {
         staticBlackFigures.SetActive(true);
-        staticWhiteFigures.SetActive(false);    
+        staticWhiteFigures.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -29,11 +29,12 @@ public class PromotionController : MonoBehaviour
     {
         staticBlackFigures = blackFigures;
         staticWhiteFigures = whiteFigures;
+        GameManager.promoteReady();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

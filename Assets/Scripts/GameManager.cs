@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+
         whichMove = true;
         whichMethod = 99;
         for (int i = 1; i <= 8; i++)
@@ -87,11 +87,16 @@ public class GameManager : MonoBehaviour
         staticHistoryPlace = historyPlace;
         staticPromotePlace = promotePlace;
 
-        staticPromotePlace.SetActive(false);
+
 
         resetGame.onClick.AddListener(generateStartPosition);
         clearButton.onClick.AddListener(clearBoard);
         //*************
+    }
+
+    public static void promoteReady()
+    {
+        staticPromotePlace.SetActive(false);
     }
     public static void addFigure(int x, int y)
     {
@@ -130,7 +135,7 @@ public class GameManager : MonoBehaviour
     {
         if (figuresTable[currentX, currentY] != null)
         {
-            if(pawnPromote(targetX, targetY))
+            if (pawnPromote(targetX, targetY))
             {
                 return;
             }
@@ -146,6 +151,7 @@ public class GameManager : MonoBehaviour
             }
             movesHistory.Add(obj);
             kingCastle(targetX);
+            enPassant(targetX, targetY);
             figuresTable[targetX, targetY] = figuresTable[currentX, currentY];
             figuresTable[currentX, currentY] = null;
             figuresTable[targetX, targetY].setPostion(targetX, targetY);
@@ -153,7 +159,7 @@ public class GameManager : MonoBehaviour
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
             attackingFields.Clear();
-            
+
 
 
             if (whichMove)
@@ -171,12 +177,12 @@ public class GameManager : MonoBehaviour
                 lastChildMoveObject.setBlackMove(obj.toString());
                 whichMove = true;
             }
+            isChecked = false;
             generateAvaibleMoves();
             int indexX = posKing.Litera;
             int indexY = posKing.Liczba;
             if (isChecked)
             {
-                isChecked = false;
                 if (figuresChecking.Count < 2)
                 {
                     //figury które mog¹ zas³oniæ szacha
@@ -205,7 +211,6 @@ public class GameManager : MonoBehaviour
 
                             if (tempAvaibleMoves.Count > 0)
                             {
-                                Debug.Log(f.nameFigure);
                                 canGuard = true;
                             }
                             f.posibleMoves.Clear();
@@ -269,6 +274,23 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
+            foreach (Figure f in figuresTable)
+            {
+                if (f != null && f.nameFigure == "Pionek")
+                {
+                    f.posibleMoves.Clear();
+                    if (f.color)
+                    {
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba + 1));
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba + 1));
+                    }
+                    else
+                    {
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba - 1));
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba - 1));
+                    }
+                }
+            }
             List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
             foreach (Figure f in figuresTable)
             {
@@ -299,15 +321,49 @@ public class GameManager : MonoBehaviour
                             f.posibleMoves.AddRange(tempAvaibleMoves);*/
                 }
             }
-            Debug.Log(canGuard);
-            Debug.Log(figuresTable[indexX, indexY].posibleMoves.Count);
+            foreach (Figure f in figuresTable)
+            {
+                if (f != null && f.nameFigure == "Pionek")
+                {
+                    f.generateAvaibleMoves();
+                }
+            }
+            bool isDraw = true;
+            foreach (Figure f in figuresTable)
+            {
+                if (f != null && f.color == whichMove)
+                {
+                    if (f.posibleMoves.Count > 0)
+                    {
+                        isDraw = false;
+                        break;
+                    }
+                }
+            }
+
             if (!canGuard && figuresTable[indexX, indexY].posibleMoves.Count == 0 && isChecked)
             {
                 Debug.Log("Checkmate");
             }
+            else if (isDraw)
+            {
+                Debug.Log("DRAW");
+                return;
+            }
         }
     }
 
+
+    public static void enPassant(int targetX, int targetY)
+    {
+        if (figuresTable[currentX, currentY].nameFigure == "Pionek")
+        {
+            if (currentX != targetX && figuresTable[targetX, targetY] == null)
+            {
+                Destroy(figuresTable[targetX, currentY].gameObject);
+            }
+        }
+    }
     public static void kingCastle(int x)
     {
 
@@ -338,11 +394,11 @@ public class GameManager : MonoBehaviour
     {
         if (figuresTable[currentX, currentY].nameFigure == "Pionek")
         {
-            if(y == 7)
+            if (y == 7)
             {
                 staticPromotePlace.SetActive(true);
                 PromotionController.choosedWhite();
-                PromotionController.x = x; 
+                PromotionController.x = x;
                 PromotionController.y = y;
                 return true;
             }
