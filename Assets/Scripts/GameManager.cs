@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
@@ -52,19 +53,15 @@ public class GameManager : MonoBehaviour
     public GameObject historyPlace;
     public static GameObject staticHistoryPlace;
 
+    //Promocja pionka
 
-    //do roszady
+    public GameObject promotePlace;
+    public static GameObject staticPromotePlace;
 
-    /*
-        public static bool whiteLongCast = true;
-        public static bool whiteShortCast = true;
-        public static bool blackLongCast = true;
-        public static bool blackShortCast = true;
-        public static bool whiteKingMove = false;
-        public */
-    // Start is called before the first frame update
+
     void Start()
     {
+        
         whichMove = true;
         whichMethod = 99;
         for (int i = 1; i <= 8; i++)
@@ -88,6 +85,9 @@ public class GameManager : MonoBehaviour
         staticPlansza = plansza;
         staticMovePrefab = movePrefab;
         staticHistoryPlace = historyPlace;
+        staticPromotePlace = promotePlace;
+
+        staticPromotePlace.SetActive(false);
 
         resetGame.onClick.AddListener(generateStartPosition);
         clearButton.onClick.AddListener(clearBoard);
@@ -130,6 +130,10 @@ public class GameManager : MonoBehaviour
     {
         if (figuresTable[currentX, currentY] != null)
         {
+            if(pawnPromote(targetX, targetY))
+            {
+                return;
+            }
             var obj = new MoveObject();
             obj.currentPos = new Wspolrzedne(targetX, targetY);
             obj.lastPos = figuresTable[currentX, currentY].positionOnBoard;
@@ -149,6 +153,7 @@ public class GameManager : MonoBehaviour
             figuresTable[targetX, targetY].transform.localPosition = new Vector2(figuresTable[targetX, targetY].positionOnBoard.Litera * 125, figuresTable[targetX, targetY].positionOnBoard.Liczba * -125);
             figuresTable[targetX, targetY].hideAvaibleMoves();
             attackingFields.Clear();
+            
 
 
             if (whichMove)
@@ -306,10 +311,11 @@ public class GameManager : MonoBehaviour
     public static void kingCastle(int x)
     {
 
-        if (figuresTable[currentX, currentY].nameFigure == "Krol")
+        if (figuresTable[currentX, currentY].nameFigure == "Krol" && !figuresTable[currentX, currentY].hasMoved)
         {
             if (x == 5)
             {
+                Debug.Log("test");
                 figuresTable[4, currentY] = figuresTable[7, currentY];
                 figuresTable[7, currentY] = null;
                 figuresTable[4, currentY].setPostion(4, currentY);
@@ -318,6 +324,7 @@ public class GameManager : MonoBehaviour
             }
             if (x == 1)
             {
+                Debug.Log("test2");
                 figuresTable[2, currentY] = figuresTable[0, currentY];
                 figuresTable[0, currentY] = null;
                 figuresTable[2, currentY].setPostion(2, currentY);
@@ -325,6 +332,43 @@ public class GameManager : MonoBehaviour
                 figuresTable[2, currentY].transform.localPosition = new Vector2(figuresTable[2, currentY].positionOnBoard.Litera * 125, figuresTable[2, currentY].positionOnBoard.Liczba * -125);
             }
         }
+    }
+
+    public static bool pawnPromote(int x, int y)
+    {
+        if (figuresTable[currentX, currentY].nameFigure == "Pionek")
+        {
+            if(y == 7)
+            {
+                staticPromotePlace.SetActive(true);
+                PromotionController.choosedWhite();
+                PromotionController.x = x; 
+                PromotionController.y = y;
+                return true;
+            }
+
+            if (y == 0)
+            {
+                staticPromotePlace.SetActive(true);
+                PromotionController.choosedBlack();
+                PromotionController.x = x;
+                PromotionController.y = y;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void replaceFigure(bool color, int figureIndex)
+    {
+        colorFigureToCreate = color;
+        numberFigureToCreate = figureIndex;
+        posibleFigureCreate = true;
+        Destroy(figuresTable[currentX, currentY].gameObject);
+        addFigure(currentX, currentY);
+        moveFigure(PromotionController.x, PromotionController.y);
+        posibleFigureCreate = false;
+        staticPromotePlace.SetActive(false);
     }
 
     static void generateAvaibleMoves()

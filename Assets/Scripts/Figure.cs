@@ -474,15 +474,35 @@ public class Figure : MonoBehaviour
     {
         if (!GameManager.isChecked)
         {
+            bool canCastle = true;
             if (!hasMoved &&
                 GameManager.figuresTable[positionOnBoard.Litera + 1, positionOnBoard.Liczba] == null &&
                 GameManager.figuresTable[positionOnBoard.Litera + 2, positionOnBoard.Liczba] == null &&
                 GameManager.figuresTable[positionOnBoard.Litera + 3, positionOnBoard.Liczba] == null &&
                 GameManager.figuresTable[positionOnBoard.Litera + 4, positionOnBoard.Liczba] != null &&
-
                 !GameManager.figuresTable[positionOnBoard.Litera + 4, positionOnBoard.Liczba].hasMoved)
             {
-                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera + 2, positionOnBoard.Liczba));
+             
+                foreach(Figure figure in GameManager.figuresTable)
+                {
+                    if(figure != null && figure != GameManager.whichMove)
+                    {
+                        foreach(Wspolrzedne wAttack in figure.posibleMoves)
+                        {
+                            if ((wAttack.Litera == positionOnBoard.Litera + 1 && wAttack.Liczba == positionOnBoard.Liczba) ||
+                                (wAttack.Litera == positionOnBoard.Litera + 2 && wAttack.Liczba == positionOnBoard.Liczba) ||
+                                (wAttack.Litera == positionOnBoard.Litera + 3 && wAttack.Liczba == positionOnBoard.Liczba))
+                            {
+                                canCastle = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (canCastle)
+                {
+                    posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera + 2, positionOnBoard.Liczba));
+                }
             }
             if (!hasMoved &&
                 GameManager.figuresTable[positionOnBoard.Litera - 1, positionOnBoard.Liczba] == null &&
@@ -490,7 +510,26 @@ public class Figure : MonoBehaviour
                 GameManager.figuresTable[positionOnBoard.Litera - 3, positionOnBoard.Liczba] != null &&
                 !GameManager.figuresTable[positionOnBoard.Litera - 3, positionOnBoard.Liczba].hasMoved)
             {
-                posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera - 2, positionOnBoard.Liczba));
+                canCastle = true;
+                foreach (Figure figure in GameManager.figuresTable)
+                {
+                    if (figure != null && figure != GameManager.whichMove)
+                    {
+                        foreach (Wspolrzedne wAttack in figure.posibleMoves)
+                        {
+                            if ((wAttack.Litera == positionOnBoard.Litera - 1 && wAttack.Liczba == positionOnBoard.Liczba) ||
+                                (wAttack.Litera == positionOnBoard.Litera - 2 && wAttack.Liczba == positionOnBoard.Liczba))
+                            {
+                                canCastle = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (canCastle)
+                {
+                    posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera - 2, positionOnBoard.Liczba));
+                }
             }
         }
     }
