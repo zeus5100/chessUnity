@@ -364,12 +364,15 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            foreach (Figure f in figuresTable)
+            if (!isChecked)
             {
-                if (f != null && f.nameFigure == "Pionek")
+                foreach (Figure f in figuresTable)
                 {
-                    f.posibleMoves.Clear();
-                    f.generateAvaibleMoves();
+                    if (f != null && f.nameFigure == "Pionek")
+                    {
+                        f.posibleMoves.Clear();
+                        f.generateAvaibleMoves();
+                    }
                 }
             }
             for (int i = 0; i < figuresPined.Count; i++)
