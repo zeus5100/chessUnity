@@ -66,6 +66,12 @@ public class GameManager : MonoBehaviour
 
     public static int countWithoutCapture;
 
+    //zwiazanie figur XDDDD
+
+    public static List<Wspolrzedne> figuresPined = new List<Wspolrzedne>();
+    public static List<int> pinedMethod = new List<int>();
+    public static List<int> reversePinedMethod = new List<int>();
+
     void Start()
     {
 
@@ -202,9 +208,6 @@ public class GameManager : MonoBehaviour
                     return;
                 }
             }
-
-
-
             if (whichMove)
             {
                 var moveHistory = Instantiate(staticMovePrefab, staticHistoryPlace.transform);
@@ -221,7 +224,11 @@ public class GameManager : MonoBehaviour
                 whichMove = true;
             }
             isChecked = false;
+            figuresPined.Clear();
+            pinedMethod.Clear();
+            reversePinedMethod.Clear();
             generateAvaibleMoves();
+
             int indexX = posKing.Litera;
             int indexY = posKing.Liczba;
             if (isChecked)
@@ -229,9 +236,10 @@ public class GameManager : MonoBehaviour
                 if (figuresChecking.Count < 2)
                 {
                     //figury które mog¹ zas³oniæ szacha
-                    figuresTable[indexX, indexY].posibleMoves.Clear();
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
+                    figuresChecking[0].posibleMoves.Clear();
                     figuresChecking[0].figuresMoves(whichMethod);
+                    ///zas³anianie figury
                     foreach (Figure f in figuresTable)
                     {
                         tempAvaibleMoves.Clear();
@@ -281,7 +289,7 @@ public class GameManager : MonoBehaviour
 
                             break;
                         case 4:
-                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX) && x.Liczba == (indexY + 1));
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX) && x.Liczba == (indexY - 1));
 
                             break;
                         case 5:
@@ -289,7 +297,7 @@ public class GameManager : MonoBehaviour
 
                             break;
                         case 6:
-                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX) && x.Liczba == (indexY - 1));
+                            toDelete = figuresTable[indexX, indexY].posibleMoves.Find(x => x.Litera == (indexX) && x.Liczba == (indexY + 1));
 
                             break;
                         case 7:
@@ -299,6 +307,7 @@ public class GameManager : MonoBehaviour
                     }
                     if (toDelete != null)
                     {
+                        Debug.Log(toDelete.toSting());
                         figuresTable[indexX, indexY].posibleMoves.Remove(toDelete);
                     }
 
@@ -317,7 +326,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            if (!isChecked)
+            else
             {
                 foreach (Figure f in figuresTable)
                 {
@@ -336,6 +345,7 @@ public class GameManager : MonoBehaviour
                         }
                     }
                 }
+                figuresTable[indexX, indexY].generateAvaibleMoves();
             }
             List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
             foreach (Figure f in figuresTable)
@@ -351,30 +361,108 @@ public class GameManager : MonoBehaviour
                                 figuresTable[indexX, indexY].posibleMoves.Remove(tempKingMoves[i]);
                             }
                         }
-                        /*foreach (Wspolrzedne wAttack in attackingFields)
-                        {
-                            if ((wDefence.Litera == wAttack.Litera && wDefence.Liczba == wAttack.Liczba))
-                            {
-                                tempAvaibleMoves.Add(wAttack);
-                            }
-                            if (wDefence.Liczba == figuresChecking[0].positionOnBoard.Liczba && wDefence.Litera == figuresChecking[0].positionOnBoard.Litera)
-                            {
-                                tempAvaibleMoves.Add(figuresChecking[0].positionOnBoard);
-                            }
-                        }*/
-                    }/*
-                            f.posibleMoves.Clear();
-                            f.posibleMoves.AddRange(tempAvaibleMoves);*/
+                    }
                 }
             }
-            if (!isChecked)
+            foreach (Figure f in figuresTable)
             {
-                foreach (Figure f in figuresTable)
+                if (f != null && f.nameFigure == "Pionek")
                 {
-                    if (f != null && f.nameFigure == "Pionek")
+                    f.posibleMoves.Clear();
+                    f.generateAvaibleMoves();
+                }
+            }
+            for (int i = 0; i < figuresPined.Count; i++)
+            {
+                Wspolrzedne wsp = figuresPined[i];
+                Figure f = figuresTable[wsp.Litera, wsp.Liczba];
+                f.posibleMoves.Clear();
+                if (f.nameFigure == "Wieza")
+                {
+                    if (pinedMethod[i] > 3)
                     {
-                        f.posibleMoves.Clear();
-                        f.generateAvaibleMoves();
+                        f.figuresMoves(pinedMethod[i]);
+                        f.figuresMoves(reversePinedMethod[i]);
+                    }
+                }
+                if (f.nameFigure == "Goniec")
+                {
+                    if (pinedMethod[i] < 4)
+                    {
+                        f.figuresMoves(pinedMethod[i]);
+                        f.figuresMoves(reversePinedMethod[i]);
+                    }
+                }
+                if (f.nameFigure == "Hetman")
+                {
+                    f.figuresMoves(pinedMethod[i]);
+                    f.figuresMoves(reversePinedMethod[i]);
+                }
+                if (f.nameFigure == "Pionek")
+                {
+                    if (pinedMethod[i] == 0 && !whichMove)
+                    {
+                        if (figuresTable[f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba - 1] != null)
+                        {
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba - 1));
+                        }
+                    }
+                    if (pinedMethod[i] == 3 && !whichMove)
+                    {
+                        if (figuresTable[f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba - 1] != null)
+                        {
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba - 1));
+                        }
+                    }
+                    if (pinedMethod[i] == 1 && whichMove)
+                    {
+                        if (figuresTable[f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba + 1] != null)
+                        {
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba + 1));
+                        }
+                    }
+                    if (pinedMethod[i] == 2 && whichMove)
+                    {
+                        if (figuresTable[f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba + 1] != null)
+                        {
+                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba + 1));
+                        }
+                    }
+                    if (pinedMethod[i] > 3)
+                    {
+                        int x = f.positionOnBoard.Litera;
+                        int y = f.positionOnBoard.Liczba;
+                        if (whichMove)
+                        {
+                            if (y + 1 <= 7 && figuresTable[x, y + 1] == null)
+                            {
+                                f.posibleMoves.Add(new Wspolrzedne(x, y + 1));
+                                //przod o dwa
+                                if (!f.hasMoved)
+                                {
+                                    if (figuresTable[x, y + 2] == null)
+                                    {
+                                        f.posibleMoves.Add(new Wspolrzedne(x, y + 2));
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (y - 1 >= 0 && figuresTable[x, y - 1] == null)
+                            {
+                                f.posibleMoves.Add(new Wspolrzedne(x, y - 1));
+                                //przod o dwa
+                                if (y == 6)
+                                {
+                                    if (figuresTable[x, y - 2] == null)
+                                    {
+                                        f.posibleMoves.Add(new Wspolrzedne(x, y - 2));
+                                    }
+                                }
+                            }
+                        }
+
                     }
                 }
             }

@@ -538,7 +538,7 @@ public class Figure : MonoBehaviour
 
                 foreach (Figure figure in GameManager.figuresTable)
                 {
-                    if (figure != null && figure != GameManager.whichMove)
+                    if (figure != null && figure.color != GameManager.whichMove)
                     {
                         foreach (Wspolrzedne wAttack in figure.posibleMoves)
                         {
@@ -566,7 +566,7 @@ public class Figure : MonoBehaviour
                 canCastle = true;
                 foreach (Figure figure in GameManager.figuresTable)
                 {
-                    if (figure != null && figure != GameManager.whichMove)
+                    if (figure != null && figure.color != GameManager.whichMove)
                     {
                         foreach (Wspolrzedne wAttack in figure.posibleMoves)
                         {
@@ -658,7 +658,6 @@ public class Figure : MonoBehaviour
 
     public void figuresMoves(int whichMoves)
     {
-        posibleMoves.Clear();
         switch (whichMoves)
         {
             case 0:
@@ -712,6 +711,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                    for (int j = i + 1; j <= 7; j++)
+                    {
+                        if (GameManager.figuresTable[j, positionOnBoard.Liczba] != null)
+                        {
+                            if (GameManager.figuresTable[j, positionOnBoard.Liczba].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                                GameManager.pinedMethod.Add(7);
+                                GameManager.reversePinedMethod.Add(5);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[i, positionOnBoard.Liczba].nameFigure == "Krol")
                     {
@@ -742,6 +758,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                    for (int j = i + 1; j <= 7; j++)
+                    {
+                        if (GameManager.figuresTable[positionOnBoard.Litera, j] != null)
+                        {
+                            if (GameManager.figuresTable[positionOnBoard.Litera, j].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                                GameManager.pinedMethod.Add(6);
+                                GameManager.reversePinedMethod.Add(4);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[positionOnBoard.Litera, i].nameFigure == "Krol")
                     {
@@ -772,6 +805,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, positionOnBoard.Liczba].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        if (GameManager.figuresTable[j, positionOnBoard.Liczba] != null)
+                        {
+                            if (GameManager.figuresTable[j, positionOnBoard.Liczba].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(i, positionOnBoard.Liczba));
+                                GameManager.pinedMethod.Add(5);
+                                GameManager.reversePinedMethod.Add(7);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[i, positionOnBoard.Liczba].nameFigure == "Krol")
                     {
@@ -802,6 +852,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[positionOnBoard.Litera, i].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                    for (int j = i - 1; j >= 0; j--)
+                    {
+                        if (GameManager.figuresTable[positionOnBoard.Litera, j] != null)
+                        {
+                            if (GameManager.figuresTable[positionOnBoard.Litera, j].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(positionOnBoard.Litera, i));
+                                GameManager.pinedMethod.Add(4);
+                                GameManager.reversePinedMethod.Add(6);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[positionOnBoard.Litera, i].nameFigure == "Krol")
                     {
@@ -833,6 +900,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, j));
+                    for (int k = i - 1, l = j + 1; k >= 0 && l <= 7; k--, l++)
+                    {
+                        if (GameManager.figuresTable[k, l] != null)
+                        {
+                            if (GameManager.figuresTable[k, l].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(i, j));
+                                GameManager.pinedMethod.Add(0);
+                                GameManager.reversePinedMethod.Add(2);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[i, j].nameFigure == "Krol")
                     {
@@ -866,6 +950,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, j));
+                    for (int k = i - 1, l = j - 1; k >= 0 && l >= 0; k--, l--)
+                    {
+                        if (GameManager.figuresTable[k, l] != null)
+                        {
+                            if (GameManager.figuresTable[k, l].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(i, j));
+                                GameManager.pinedMethod.Add(1);
+                                GameManager.reversePinedMethod.Add(3);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[i, j].nameFigure == "Krol")
                     {
@@ -898,6 +999,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, j));
+                    for (int k = i + 1, l = j - 1; k <= 7 && l >= 0; k++, l--)
+                    {
+                        if (GameManager.figuresTable[k, l] != null)
+                        {
+                            if (GameManager.figuresTable[k, l].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(i, j));
+                                GameManager.pinedMethod.Add(2);
+                                GameManager.reversePinedMethod.Add(0);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[i, j].nameFigure == "Krol")
                     {
@@ -930,6 +1048,23 @@ public class Figure : MonoBehaviour
                 if (GameManager.figuresTable[i, j].color != GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba].color)
                 {
                     posibleMoves.Add(new Wspolrzedne(i, j));
+                    for (int k = i + 1, l = j + 1; k <= 7 && l <= 7; k++, l++)
+                    {
+                        if (GameManager.figuresTable[k, l] != null)
+                        {
+                            if (GameManager.figuresTable[k, l].nameFigure == "Krol")
+                            {
+                                GameManager.figuresPined.Add(new Wspolrzedne(i, j));
+                                GameManager.pinedMethod.Add(3);
+                                GameManager.reversePinedMethod.Add(1);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            //dodac do listy figur zwiazanych 
+                        }
+                    }
                     //Sprawdzanie czy szach
                     if (GameManager.figuresTable[i, j].nameFigure == "Krol")
                     {
