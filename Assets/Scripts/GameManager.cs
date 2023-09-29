@@ -269,7 +269,7 @@ public class GameManager : MonoBehaviour
                                 }
                             }
 
-                            if (tempAvaibleMoves.Count > 0)
+                            if (tempAvaibleMoves.Count > 0 && f.nameFigure != "Krol")
                             {
                                 canGuard = true;
                             }
@@ -490,6 +490,7 @@ public class GameManager : MonoBehaviour
             }
             else if (isDraw)
             {
+                Debug.Log(canGuard);
                 Debug.Log("DRAW");
                 return;
             }
