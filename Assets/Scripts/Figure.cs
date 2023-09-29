@@ -389,7 +389,7 @@ public class Figure : MonoBehaviour
                                 GameManager.isChecked = true;
                             }
                         }
-                        else
+                        else if (GameManager.figuresTable[x - 1, y + 1] != null)
                         {
                             GameManager.figuresTable[x - 1, y + 1].isProtected = true;
                         }
@@ -419,7 +419,7 @@ public class Figure : MonoBehaviour
                             }
 
                         }
-                        else
+                        else if (GameManager.figuresTable[x + 1, y + 1] != null)
                         {
                             GameManager.figuresTable[x + 1, y + 1].isProtected = true;
                         }
@@ -466,7 +466,7 @@ public class Figure : MonoBehaviour
                             }
 
                         }
-                        else
+                        else if (GameManager.figuresTable[x - 1, y - 1] != null)
                         {
                             GameManager.figuresTable[x - 1, y - 1].isProtected = true;
                         }
@@ -497,7 +497,7 @@ public class Figure : MonoBehaviour
                             }
 
                         }
-                        else
+                        else if (GameManager.figuresTable[x + 1, y - 1] != null)
                         {
                             GameManager.figuresTable[x + 1, y - 1].isProtected = true;
                         }
