@@ -230,13 +230,6 @@ public class GameManager : MonoBehaviour
             reversePinedMethod.Clear();
             whichMethod = 99;
             generateAvaibleMoves();
-            foreach (Figure f in figuresTable)
-            {
-                if (f != null)
-                {
-                    Debug.Log("Nazywam sie: " + f.nameFigure + "jestem chroniony: " + f.isProtected);
-                }
-            }
             int indexX = posKing.Litera;
             int indexY = posKing.Liczba;
             if (isChecked)
@@ -344,27 +337,24 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            else
+            foreach (Figure f in figuresTable)
             {
-                foreach (Figure f in figuresTable)
+                if (f != null && f.nameFigure == "Pionek" && f.color != whichMove)
                 {
-                    if (f != null && f.nameFigure == "Pionek")
+                    f.posibleMoves.Clear();
+                    if (f.color)
                     {
-                        f.posibleMoves.Clear();
-                        if (f.color)
-                        {
-                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba + 1));
-                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba + 1));
-                        }
-                        else
-                        {
-                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba - 1));
-                            f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba - 1));
-                        }
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba + 1));
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba + 1));
+                    }
+                    else
+                    {
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera - 1, f.positionOnBoard.Liczba - 1));
+                        f.posibleMoves.Add(new Wspolrzedne(f.positionOnBoard.Litera + 1, f.positionOnBoard.Liczba - 1));
                     }
                 }
-                figuresTable[indexX, indexY].generateAvaibleMoves();
             }
+            figuresTable[indexX, indexY].generateAvaibleMoves();
             List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
             foreach (Figure f in figuresTable)
             {
@@ -382,15 +372,12 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            if (!isChecked)
+            foreach (Figure f in figuresTable)
             {
-                foreach (Figure f in figuresTable)
+                if (f != null && f.nameFigure == "Pionek" && f.color != whichMove)
                 {
-                    if (f != null && f.nameFigure == "Pionek")
-                    {
-                        f.posibleMoves.Clear();
-                        f.generateAvaibleMoves();
-                    }
+                    f.posibleMoves.Clear();
+                    f.generateAvaibleMoves();
                 }
             }
             for (int i = 0; i < figuresPined.Count; i++)
