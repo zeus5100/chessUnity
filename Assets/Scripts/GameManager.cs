@@ -160,6 +160,7 @@ public class GameManager : MonoBehaviour
     }
     public static void moveFigure(int targetX, int targetY)
     {
+        canGuard = false;
         if (figuresTable[currentX, currentY] != null)
         {
             if (pawnPromote(targetX, targetY))
@@ -227,6 +228,7 @@ public class GameManager : MonoBehaviour
             figuresPined.Clear();
             pinedMethod.Clear();
             reversePinedMethod.Clear();
+            whichMethod = 99;
             generateAvaibleMoves();
 
             int indexX = posKing.Litera;
@@ -238,7 +240,16 @@ public class GameManager : MonoBehaviour
                     //figury które mog¹ zas³oniæ szacha
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
                     figuresChecking[0].posibleMoves.Clear();
-                    figuresChecking[0].figuresMoves(whichMethod);
+                    Debug.Log("Ktora metoda: " + whichMethod);                  
+                    if (figuresChecking[0].nameFigure == "Kon" || figuresChecking[0].nameFigure == "Pionek")
+                    {
+                        figuresChecking[0].posibleMoves.Add(new Wspolrzedne(posKing.Litera, posKing.Liczba));
+                    }
+                    else
+                    {
+                        figuresChecking[0].figuresMoves(whichMethod);
+                    }
+                    Debug.Log("Ktora metoda: " + whichMethod);
                     ///zas³anianie figury
                     foreach (Figure f in figuresTable)
                     {

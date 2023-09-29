@@ -686,15 +686,17 @@ public class Figure : MonoBehaviour
             case 7:
                 rookLeft();
                 break;
-            default: break;
+            default:
+                generateAvaibleMoves();
+                break;
         }
         GameManager.attackingFields.AddRange(posibleMoves);
-        /*for (int i = 0; i < posibleMoves.Count; i++)
+        for (int i = 0; i < posibleMoves.Count; i++)
         {
             var temp = Instantiate(redImage, PosibleMoves.place.transform);
             temp.transform.localPosition = new Vector2(posibleMoves[i].Litera * 125, posibleMoves[i].Liczba * -125);
             // Debug.Log(posibleMoves[i].toSting());
-        }*/
+        }
     }
 
     public void rookLeft()
