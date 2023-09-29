@@ -230,7 +230,13 @@ public class GameManager : MonoBehaviour
             reversePinedMethod.Clear();
             whichMethod = 99;
             generateAvaibleMoves();
-
+            foreach (Figure f in figuresTable)
+            {
+                if (f != null)
+                {
+                    Debug.Log("Nazywam sie: " + f.nameFigure + "jestem chroniony: " + f.isProtected);
+                }
+            }
             int indexX = posKing.Litera;
             int indexY = posKing.Liczba;
             if (isChecked)
@@ -240,7 +246,7 @@ public class GameManager : MonoBehaviour
                     //figury które mog¹ zas³oniæ szacha
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
                     figuresChecking[0].posibleMoves.Clear();
-                    Debug.Log("Ktora metoda: " + whichMethod);                  
+                    Debug.Log("Ktora metoda: " + whichMethod);
                     if (figuresChecking[0].nameFigure == "Kon" || figuresChecking[0].nameFigure == "Pionek")
                     {
                         figuresChecking[0].posibleMoves.Add(new Wspolrzedne(posKing.Litera, posKing.Liczba));
@@ -250,6 +256,7 @@ public class GameManager : MonoBehaviour
                         figuresChecking[0].figuresMoves(whichMethod);
                     }
                     Debug.Log("Ktora metoda: " + whichMethod);
+                    Debug.Log(figuresChecking[0].isProtected);
                     ///zas³anianie figury
                     foreach (Figure f in figuresTable)
                     {

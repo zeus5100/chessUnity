@@ -388,12 +388,12 @@ public class Figure : MonoBehaviour
                                 GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                                 GameManager.isChecked = true;
                             }
-                            else
-                            {
-                                GameManager.figuresTable[x - 1, y + 1].isProtected = true;
-                            }
                         }
-                        else if (y == 4 &&
+                        else
+                        {
+                            GameManager.figuresTable[x - 1, y + 1].isProtected = true;
+                        }
+                        if (y == 4 &&
                             GameManager.figuresTable[x - 1, y] != null &&
                             GameManager.figuresTable[x - 1, y].nameFigure == "Pionek" &&
                             GameManager.figuresTable[x - 1, y].color == false &&
@@ -417,12 +417,13 @@ public class Figure : MonoBehaviour
                                 GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                                 GameManager.isChecked = true;
                             }
-                            else
-                            {
-                                GameManager.figuresTable[x + 1, y + 1].isProtected = true;
-                            }
+
                         }
-                        else if (y == 4 &&
+                        else
+                        {
+                            GameManager.figuresTable[x + 1, y + 1].isProtected = true;
+                        }
+                        if (y == 4 &&
                             GameManager.figuresTable[x + 1, y] != null &&
                             GameManager.figuresTable[x + 1, y].nameFigure == "Pionek" &&
                             GameManager.figuresTable[x + 1, y].color == false &&
@@ -463,12 +464,13 @@ public class Figure : MonoBehaviour
                                 GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                                 GameManager.isChecked = true;
                             }
-                            else
-                            {
-                                GameManager.figuresTable[x - 1, y - 1].isProtected = true;
-                            }
+
                         }
-                        else if (y == 3 &&
+                        else
+                        {
+                            GameManager.figuresTable[x - 1, y - 1].isProtected = true;
+                        }
+                        if (y == 3 &&
                             GameManager.figuresTable[x - 1, y] != null &&
                             GameManager.figuresTable[x - 1, y].nameFigure == "Pionek" &&
                             GameManager.figuresTable[x - 1, y].color == true &&
@@ -493,12 +495,13 @@ public class Figure : MonoBehaviour
                                 GameManager.figuresChecking.Add(GameManager.figuresTable[positionOnBoard.Litera, positionOnBoard.Liczba]);
                                 GameManager.isChecked = true;
                             }
-                            else
-                            {
-                                GameManager.figuresTable[x + 1, y - 1].isProtected = true;
-                            }
+
                         }
-                        else if (y == 3 &&
+                        else
+                        {
+                            GameManager.figuresTable[x + 1, y - 1].isProtected = true;
+                        }
+                        if (y == 3 &&
                             GameManager.figuresTable[x + 1, y] != null &&
                             GameManager.figuresTable[x + 1, y].nameFigure == "Pionek" &&
                             GameManager.figuresTable[x + 1, y].color == true &&
