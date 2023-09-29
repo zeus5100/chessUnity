@@ -239,17 +239,15 @@ public class GameManager : MonoBehaviour
                     //figury które mog¹ zas³oniæ szacha
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
                     figuresChecking[0].posibleMoves.Clear();
-                    Debug.Log("Ktora metoda: " + whichMethod);
                     if (figuresChecking[0].nameFigure == "Kon" || figuresChecking[0].nameFigure == "Pionek")
                     {
                         figuresChecking[0].posibleMoves.Add(new Wspolrzedne(posKing.Litera, posKing.Liczba));
+                        attackingFields.Add(new Wspolrzedne(posKing.Litera, posKing.Liczba));
                     }
                     else
                     {
                         figuresChecking[0].figuresMoves(whichMethod);
                     }
-                    Debug.Log("Ktora metoda: " + whichMethod);
-                    Debug.Log(figuresChecking[0].isProtected);
                     ///zas³anianie figury
                     foreach (Figure f in figuresTable)
                     {
@@ -318,7 +316,6 @@ public class GameManager : MonoBehaviour
                     }
                     if (toDelete != null)
                     {
-                        Debug.Log(toDelete.toSting());
                         figuresTable[indexX, indexY].posibleMoves.Remove(toDelete);
                     }
 
