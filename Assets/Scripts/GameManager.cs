@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject board;
     public static GameObject staticBoard;
+    public static int rotateMissX;
+    public static int rotateMissY;
 
     void Start()
     {
@@ -99,6 +101,8 @@ public class GameManager : MonoBehaviour
 
 
         boardFields();
+        rotateMissX = 180;
+        rotateMissY = 125;
         //*************
     }
     public static void boardFields()
@@ -123,21 +127,21 @@ public class GameManager : MonoBehaviour
     public static void flipBoard()
     {
         //TODO
-        int x = 180;
-        int y = 125;
+        rotateMissX = 180;
+        rotateMissY = 125;
         Debug.Log(staticBoard.transform.localRotation.z);
         if (staticBoard.transform.localRotation.z == 1)
         {
-            x = 0;
-            y = 0;
+            rotateMissX = 0;
+            rotateMissY = 0;
         }
-        staticBoard.transform.localRotation = Quaternion.Euler(0, 0, x);
-        staticPlansza.gameObject.transform.localPosition = new Vector2(-500 + y, 500 - y);
+        staticBoard.transform.localRotation = Quaternion.Euler(0, 0, rotateMissX);
+        staticPlansza.gameObject.transform.localPosition = new Vector2(-500 + rotateMissY, 500 - rotateMissY);
         foreach (Figure f in figuresTable)
         {
             if (f != null)
             {
-                f.gameObject.transform.localRotation = Quaternion.Euler(0, 0, x);
+                f.gameObject.transform.localRotation = Quaternion.Euler(0, 0, rotateMissX);
             }
         }
     }
@@ -154,6 +158,7 @@ public class GameManager : MonoBehaviour
         Figure temp = Instantiate(staticFigures[numberFigureToCreate], staticPlansza.transform);
         temp.setColor(colorFigureToCreate);
         temp.setPostion(x, y);
+        temp.transform.localRotation = Quaternion.Euler(0, 0, rotateMissX);
         temp.transform.localPosition = new Vector2(temp.positionOnBoard.Litera * 125, temp.positionOnBoard.Liczba * -125);
         temp.setImage();
         figuresTable[x, y] = temp;
