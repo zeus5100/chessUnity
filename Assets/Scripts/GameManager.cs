@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     public Button clearButton;
 
 
-    //historia ruchów
+    //historia ruchï¿½w
     public MovePrefab movePrefab;
     public static MovePrefab staticMovePrefab;
     public static List<MoveObject> movesHistory = new List<MoveObject>();
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        //przypisanie niestatycznych elementów do statycznych zmiennych
+        //przypisanie niestatycznych elementï¿½w do statycznych zmiennych
         staticFigures = avaibleFigures;
         staticPlansza = plansza;
         staticMovePrefab = movePrefab;
@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour
             {
                 if (figuresChecking.Count < 2)
                 {
-                    //figury które mog¹ zas³oniæ szacha
+                    //figury ktï¿½re mogï¿½ zasï¿½oniï¿½ szacha
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
                     figuresChecking[0].posibleMoves.Clear();
                     if (figuresChecking[0].nameFigure == "Kon" || figuresChecking[0].nameFigure == "Pionek")
@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
                     {
                         figuresChecking[0].figuresMoves(whichMethod);
                     }
-                    ///zas³anianie figury
+                    ///zasï¿½anianie figury
                     foreach (Figure f in figuresTable)
                     {
                         tempAvaibleMoves.Clear();
@@ -321,7 +321,7 @@ public class GameManager : MonoBehaviour
 
 
                     figuresChecking[0].generateAvaibleMoves();
-                    //na nowo ruchy króla
+                    //na nowo ruchy krï¿½la
                 }
                 else
                 {

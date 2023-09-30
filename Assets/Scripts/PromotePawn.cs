@@ -7,11 +7,11 @@ public class PromotePawn : MonoBehaviour
 {
     public enum Figury
     {
-        Wieøa,
+        Wie≈ºa,
         Goniec,
         Konik,
         Hetman,
-        KrÛl,
+        Kr√≥l,
         Pionek,
     }
     public Figury typ;
