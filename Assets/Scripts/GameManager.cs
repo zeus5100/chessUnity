@@ -15,7 +15,12 @@ public class GameManager : MonoBehaviour
     public GameObject plansza;
     public static GameObject staticPlansza;
     public GameObject background;
+    public static GameObject staticBackground;
     public GameObject avaibleMoves;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static int numberFigureToCreate;
     public static bool colorFigureToCreate;
     public static bool posibleFigureCreate;
@@ -36,14 +41,11 @@ public class GameManager : MonoBehaviour
 
     public Image kafelekB;
     public Image kafelekC;
+    public static Image staticBlackField;
+    public static Image staticWhiteField;
 
-    //generate default position
 
-    public Button resetGame;
 
-    //wyczysc plansze
-
-    public Button clearButton;
 
 
     //historia ruchów
@@ -72,42 +74,73 @@ public class GameManager : MonoBehaviour
     public static List<int> pinedMethod = new List<int>();
     public static List<int> reversePinedMethod = new List<int>();
 
+    //board
+
+    public GameObject board;
+    public static GameObject staticBoard;
+
     void Start()
     {
 
         whichMove = true;
         whichMethod = 99;
         countWithoutCapture = 0;
+        //przypisanie niestatycznych elementów do statycznych zmiennych
+        staticBlackField = kafelekC;
+        staticWhiteField = kafelekB;
+        staticBackground = background;
+        staticFigures = avaibleFigures;
+        staticPlansza = plansza;
+        staticMovePrefab = movePrefab;
+        staticHistoryPlace = historyPlace;
+        staticPromotePlace = promotePlace;
+        staticBoard = board;
+
+
+
+        boardFields();
+        //*************
+    }
+    public static void boardFields()
+    {
         for (int i = 1; i <= 8; i++)
         {
             for (int j = 1; j <= 4; j++)
             {
                 if (i % 2 == 1)
                 {
-                    Instantiate(kafelekB, background.transform);
-                    Instantiate(kafelekC, background.transform);
+                    Instantiate(staticWhiteField, staticBackground.transform);
+                    Instantiate(staticBlackField, staticBackground.transform);
                 }
                 else
                 {
-                    Instantiate(kafelekC, background.transform);
-                    Instantiate(kafelekB, background.transform);
+                    Instantiate(staticBlackField, staticBackground.transform);
+                    Instantiate(staticWhiteField, staticBackground.transform);
                 }
             }
         }
-        //przypisanie niestatycznych elementów do statycznych zmiennych
-        staticFigures = avaibleFigures;
-        staticPlansza = plansza;
-        staticMovePrefab = movePrefab;
-        staticHistoryPlace = historyPlace;
-        staticPromotePlace = promotePlace;
-
-
-
-        resetGame.onClick.AddListener(generateStartPosition);
-        clearButton.onClick.AddListener(clearBoard);
-        //*************
     }
-
+    public static void flipBoard()
+    {
+        //TODO
+        int x = 180;
+        int y = 125;
+        Debug.Log(staticBoard.transform.localRotation.z);
+        if (staticBoard.transform.localRotation.z == 1)
+        {
+            x = 0;
+            y = 0;
+        }
+        staticBoard.transform.localRotation = Quaternion.Euler(0, 0, x);
+        staticPlansza.gameObject.transform.localPosition = new Vector2(-500 + y, 500 - y);
+        foreach (Figure f in figuresTable)
+        {
+            if (f != null)
+            {
+                f.gameObject.transform.localRotation = Quaternion.Euler(0, 0, x);
+            }
+        }
+    }
     public static void promoteReady()
     {
         staticPromotePlace.SetActive(false);
@@ -571,7 +604,7 @@ public class GameManager : MonoBehaviour
         staticPromotePlace.SetActive(false);
     }
 
-    static void generateAvaibleMoves()
+    public static void generateAvaibleMoves()
     {
         isChecked = false;
         figuresChecking.Clear();
