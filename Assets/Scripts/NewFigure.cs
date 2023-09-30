@@ -7,11 +7,11 @@ public class NewFigure : MonoBehaviour
 {
     public enum Figury
     {
-        Wie¿a,
+        Wieza,
         Goniec,
         Konik,
         Hetman,
-        Król,
+        Krol,
         Pionek,
     }
     public Figury typ;

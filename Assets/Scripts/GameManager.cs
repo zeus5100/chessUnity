@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    //historia ruchów
+    //historia ruchï¿½w
     public MovePrefab movePrefab;
     public static MovePrefab staticMovePrefab;
     public static List<MoveObject> movesHistory = new List<MoveObject>();
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         whichMove = true;
         whichMethod = 99;
         countWithoutCapture = 0;
-        //przypisanie niestatycznych elementów do statycznych zmiennych
+        //przypisanie niestatycznych elementï¿½w do statycznych zmiennych
         staticBlackField = kafelekC;
         staticWhiteField = kafelekB;
         staticBackground = background;
@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour
             {
                 if (figuresChecking.Count < 2)
                 {
-                    //figury które mog¹ zas³oniæ szacha
+                    //figury ktï¿½re mogï¿½ zasï¿½oniï¿½ szacha
                     List<Wspolrzedne> tempAvaibleMoves = new List<Wspolrzedne>();
                     figuresChecking[0].posibleMoves.Clear();
                     if (figuresChecking[0].nameFigure == "Kon" || figuresChecking[0].nameFigure == "Pionek")
@@ -286,7 +286,7 @@ public class GameManager : MonoBehaviour
                     {
                         figuresChecking[0].figuresMoves(whichMethod);
                     }
-                    ///zas³anianie figury
+                    ///zasï¿½anianie figury
                     foreach (Figure f in figuresTable)
                     {
                         tempAvaibleMoves.Clear();
@@ -359,7 +359,7 @@ public class GameManager : MonoBehaviour
 
 
                     figuresChecking[0].generateAvaibleMoves();
-                    //na nowo ruchy króla
+                    //na nowo ruchy krï¿½la
                 }
                 else
                 {
@@ -389,7 +389,10 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            figuresTable[indexX, indexY].generateAvaibleMoves();
+            if (!isChecked)
+            {
+                figuresTable[indexX, indexY].generateAvaibleMoves();
+            }
             List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
             foreach (Figure f in figuresTable)
             {
