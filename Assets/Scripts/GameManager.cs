@@ -126,12 +126,13 @@ public class GameManager : MonoBehaviour
                 colorFigureToCreate = true;
             }
             addFigure(x, y);
-        }
-        foreach (Figure f in figuresTable)
-        {
-            if (f != null)
+            if (s[i] == 'K' && s[i + 1] == 'w' && x != 4 && y != 0)
             {
-                f.hasMoved = true;
+                figuresTable[x, y].hasMoved = true;
+            }
+            if (s[i] == 'K' && s[i + 1] == 'b' && x != 4 && y != 7)
+            {
+                figuresTable[x, y].hasMoved = true;
             }
         }
         generateAvaibleMoves();
@@ -696,7 +697,6 @@ public class GameManager : MonoBehaviour
             {
                 if (figuresTable[i, j] != null)
                 {
-                    Debug.Log(figuresTable[i, j].hasMoved);
                     figuresTable[i, j].generateAvaibleMoves();
                 }
             }
