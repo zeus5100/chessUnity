@@ -351,7 +351,10 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-            figuresTable[indexX, indexY].generateAvaibleMoves();
+            if (!isChecked)
+            {
+                figuresTable[indexX, indexY].generateAvaibleMoves();
+            }
             List<Wspolrzedne> tempKingMoves = figuresTable[indexX, indexY].posibleMoves;
             foreach (Figure f in figuresTable)
             {
