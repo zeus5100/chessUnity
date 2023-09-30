@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
@@ -81,6 +82,9 @@ public class GameManager : MonoBehaviour
     public static int rotateMissX;
     public static int rotateMissY;
 
+    //menu do wczytania pozycji
+
+
     void Start()
     {
 
@@ -99,11 +103,69 @@ public class GameManager : MonoBehaviour
         staticBoard = board;
 
 
-
         boardFields();
         rotateMissX = 180;
         rotateMissY = 125;
         //*************
+    }
+    public static void loadPosition(string s)
+    {
+        clearBoard();
+        posibleFigureCreate = true;
+        for (int i = 0; i < s.Length; i += 4)
+        {
+            int x = (int)s[i + 2] - 48;
+            int y = (int)s[i + 3] - 48;
+            numberFigureToCreate = figureSymbolToInt(s[i]);
+            if (s[i + 1] == 'b')
+            {
+                colorFigureToCreate = false;
+            }
+            else if (s[i + 1] == 'w')
+            {
+                colorFigureToCreate = true;
+            }
+            addFigure(x, y);
+        }
+        foreach (Figure f in figuresTable)
+        {
+            if (f != null)
+            {
+                f.hasMoved = true;
+            }
+        }
+        generateAvaibleMoves();
+        posibleFigureCreate = false;
+    }
+
+    public static int figureSymbolToInt(char character)
+    {
+        switch (character)
+        {
+            case 'R': return 0;
+            case 'B': return 1;
+            case 'N': return 2;
+            case 'Q': return 3;
+            case 'K': return 4;
+            case 'P': return 5;
+        }
+        return 0;
+    }
+    public static string positionSaveFormat()
+    {
+        string s = "";
+        foreach (Figure f in figuresTable)
+        {
+            if (f != null)
+            {
+                s += f.toString();
+            }
+        }
+        return s;
+    }
+    public static void copyPositon()
+    {
+        GUIUtility.systemCopyBuffer = PositionToString();
     }
     public static void boardFields()
     {
@@ -129,7 +191,6 @@ public class GameManager : MonoBehaviour
         //TODO
         rotateMissX = 180;
         rotateMissY = 125;
-        Debug.Log(staticBoard.transform.localRotation.z);
         if (staticBoard.transform.localRotation.z == 1)
         {
             rotateMissX = 0;
@@ -162,7 +223,6 @@ public class GameManager : MonoBehaviour
         temp.transform.localPosition = new Vector2(temp.positionOnBoard.Litera * 125, temp.positionOnBoard.Liczba * -125);
         temp.setImage();
         figuresTable[x, y] = temp;
-        generateAvaibleMoves();
     }
     public static void choiceFigureToCreate(int x, bool color)
     {
@@ -175,7 +235,7 @@ public class GameManager : MonoBehaviour
         switch (x)
         {
             case "Wieza": return 'R';
-            case "Pionek": return ' ';
+            case "Pionek": return 'P';
             case "Kon": return 'N';
             case "Krol": return 'K';
             case "Hetman": return 'Q';
@@ -636,6 +696,7 @@ public class GameManager : MonoBehaviour
             {
                 if (figuresTable[i, j] != null)
                 {
+                    Debug.Log(figuresTable[i, j].hasMoved);
                     figuresTable[i, j].generateAvaibleMoves();
                 }
             }
@@ -724,6 +785,7 @@ public class GameManager : MonoBehaviour
         posibleFigureCreate = true;
         var position = PositionToString();
         samePositionCount[position] = 1;
+        generateAvaibleMoves();
     }
 
     // Update is called once per frame

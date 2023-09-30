@@ -22,7 +22,6 @@ public class Figure : MonoBehaviour
     public bool hasMoved;
     private void Start()
     {
-        hasMoved = false;
         button.onClick.AddListener(showAvaibleMoves);
     }
 
@@ -32,7 +31,18 @@ public class Figure : MonoBehaviour
     }
     public string toString()
     {
-        return nameFigure + positionOnBoard.Litera.ToString() + positionOnBoard.Liczba.ToString();
+        string s = "";
+        s += GameManager.nameToSymbol(nameFigure);
+        if (color)
+        {
+            s += 'w';
+        }
+        else
+        {
+            s += 'b';
+        }
+        s += positionOnBoard.Litera.ToString() + positionOnBoard.Liczba.ToString();
+        return s;
     }
     public void generateAvaibleMoves()
     {
