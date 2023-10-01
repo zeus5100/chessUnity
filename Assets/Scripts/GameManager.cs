@@ -224,6 +224,7 @@ public class GameManager : MonoBehaviour
         temp.transform.localPosition = new Vector2(temp.positionOnBoard.Litera * 125, temp.positionOnBoard.Liczba * -125);
         temp.setImage();
         figuresTable[x, y] = temp;
+        generateAvaibleMoves();
     }
     public static void choiceFigureToCreate(int x, bool color)
     {
