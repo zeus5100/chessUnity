@@ -11,6 +11,7 @@ public class MovePrefab : MonoBehaviour
     void Start()
     {
         blackMove.text = "";
+        
     }
 
     public void setMoveCount(int x)

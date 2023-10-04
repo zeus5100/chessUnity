@@ -5,8 +5,6 @@ using System.Net.NetworkInformation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : MonoBehaviour
 {
@@ -134,6 +132,7 @@ public class GameManager : MonoBehaviour
             {
                 figuresTable[x, y].hasMoved = true;
             }
+            figuresTable[x, y].hasMoved = true;
         }
         generateAvaibleMoves();
         posibleFigureCreate = false;
@@ -224,7 +223,7 @@ public class GameManager : MonoBehaviour
         temp.transform.localPosition = new Vector2(temp.positionOnBoard.Litera * 125, temp.positionOnBoard.Liczba * -125);
         temp.setImage();
         figuresTable[x, y] = temp;
-        generateAvaibleMoves();
+        //generateAvaibleMoves();
     }
     public static void choiceFigureToCreate(int x, bool color)
     {
@@ -484,6 +483,7 @@ public class GameManager : MonoBehaviour
             {
                 Wspolrzedne wsp = figuresPined[i];
                 Figure f = figuresTable[wsp.Litera, wsp.Liczba];
+                if(f.nameFigure != "Krol") {
                 f.posibleMoves.Clear();
                 if (f.nameFigure == "Wieza")
                 {
@@ -507,6 +507,8 @@ public class GameManager : MonoBehaviour
                     f.figuresMoves(reversePinedMethod[i]);
                 }
                 if (f.nameFigure == "Pionek")
+            
+
                 {
                     if (pinedMethod[i] == 0 && !whichMove)
                     {
@@ -572,6 +574,7 @@ public class GameManager : MonoBehaviour
                         }
 
                     }
+                }
                 }
             }
             bool isDraw = true;
@@ -685,6 +688,7 @@ public class GameManager : MonoBehaviour
                 if (figuresTable[i, j] != null)
                 {
                     figuresTable[i, j].isProtected = false;
+                    Debug.Log(figuresTable[i, j].hasMoved + figuresTable[i, j].nameFigure);
                     if (figuresTable[i, j].nameFigure == "Krol" && figuresTable[i, j].color == whichMove)
                     {
                         posKing = figuresTable[i, j].positionOnBoard;
