@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
+//***** ***
 public class Figure : MonoBehaviour
 {
     [SerializeField] public string nameFigure;
